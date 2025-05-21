@@ -127,7 +127,7 @@ export class SeatResultsComponent implements OnInit, OnDestroy {
             id: section.id || 0,
             name: section.name || '',
             state: section.ballotOpen ? 'Aperto' : 'Chiuso',
-            votes: '-'
+            votes: section.votes ? section.votes.toString() : '-'
         }));
     }
     onSectionChange(): void {
@@ -138,7 +138,7 @@ export class SeatResultsComponent implements OnInit, OnDestroy {
                         id: data.id,
                         name: data.name || '',
                         state: data.ballotOpen ? 'Aperto' : 'Chiuso',
-                        votes: '-'
+                        votes: data.votes ? data.votes.toString() : '-'
                     } as SectionData;
                 },
                 error: (err) => console.error('Errore nel caricamento dei dettagli sezione:', err)
