@@ -17,6 +17,7 @@ import { PartyListCardModel } from '../../api';
         <app-person-card 
           *ngFor="let person_card of partyListCardModel.candidateModels" 
           [candidateCardModel]="person_card"
+          [showCounter]="showCounter"
         ></app-person-card>
       </div>
     </div>
@@ -58,6 +59,7 @@ import { PartyListCardModel } from '../../api';
 })
 export class PartyContainerComponent {
     @Input() partyListCardModel!: PartyListCardModel;
+    @Input() showCounter!: boolean;
 
     constructor(private seatService: SeatService) { }
 

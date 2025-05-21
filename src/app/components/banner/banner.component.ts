@@ -14,42 +14,7 @@ import { CommonModule } from '@angular/common';
       <button (click)="closeBanner()" class="close-button">×</button>
     </div>
   `,
-    styles: [`
-    .maintenance-banner {
-      position: fixed;
-      bottom: 0; /* Cambiato da top a bottom */
-      left: 0;
-      width: 100%;
-      background-color: #ff9800;
-      color: white;
-      text-align: center;
-      padding: 10px;
-      z-index: 9999;
-      font-weight: bold;
-      box-shadow: 0 -2px 5px rgba(0,0,0,0.2); /* Ombra verso l'alto */
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .close-button {
-      position: absolute;
-      right: 10px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: none;
-      border: none;
-      color: white;
-      font-size: 20px;
-      cursor: pointer;
-      padding: 0 5px;
-    }
-
-    :host {
-      display: block;
-      height: 40px;
-    }
-  `]
+    styleUrls: ["./banner.component.scss"]
 })
 export class MaintenanceBannerComponent implements OnInit, OnDestroy {
     isVisible = true;

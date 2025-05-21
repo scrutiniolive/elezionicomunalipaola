@@ -16,47 +16,7 @@ import { CommonModule } from '@angular/common';
       </div>
     </div>
   `,
-    styles: [`
-    .counter-card {
-      background-color: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      padding: 20px;
-      display: flex;
-      align-items: center;
-      
-    
-      
-      .icon {
-        background-color: #3498db;
-        color: white;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 24px;
-        margin-right: 11px;
-      }
-      
-      .content {
-        h3 {
-          margin: 0;
-          color: #7f8c8d;
-          font-size: 16px;
-          font-weight: 500;
-        }
-        
-        .value {
-          font-size: 24px;
-          font-weight: 700;
-          margin: 5px 0 0;
-          color: #2c3e50;
-        }
-      }
-    }
-  `]
+    styleUrls: ["./counter-card.component.scss"]
 })
 export class CounterCardComponent {
     @Input() title: string = '';
