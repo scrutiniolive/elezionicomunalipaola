@@ -1,0 +1,88 @@
+@use 'sass:color';
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f7fa;
+    color: #333;
+  }
+  
+  /* Variabili globali */
+  :root {
+    --primary-color: #3498db;
+    --secondary-color: #2ecc71;
+    --dark-color: #2c3e50;
+    --light-color: #ecf0f1;
+    --danger-color: #e74c3c;
+    --warning-color: #f1c40f;
+  }
+  
+  /* Stili comuni per carte e contenitori */
+  .card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+  }
+  
+  /* Stili per bottoni */
+  .btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    
+    &.btn-primary {
+      background-color: var(--primary-color);
+      color: white;
+      
+      &:hover {
+        background-color: color.adjust(#3498db, $lightness: -10%);
+      }
+    }
+  }
+  
+  /* Stili di aiuto */
+  .text-center { text-align: center; }
+  .mt-2 { margin-top: 0.5rem; }
+  .mt-4 { margin-top: 1rem; }
+  .mb-4 { margin-bottom: 1rem; }
+
+  // Stili per scroll bar personalizzate
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f5f7fa;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #cfd9db;
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #bdc3c7;
+}
+
+// Icone personalizzate per ciascun partito
+.party-id-1 .party-icon i::before { content: '\f200'; } // chart
+.party-id-2 .party-icon i::before { content: '\f201'; } // chart-line
+.party-id-3 .party-icon i::before { content: '\f080'; } // bar-chart
+.party-id-4 .party-icon i::before { content: '\f1fe'; } // area-chart
+.party-id-5 .party-icon i::before { content: '\f200'; } // pie-chart

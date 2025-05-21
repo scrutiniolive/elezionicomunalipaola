@@ -1,0 +1,43 @@
+<div class="menu-container">
+    <!-- Hamburger Menu Button - always visible -->
+    <button class="menu-button" (click)="toggleMenu()">
+        <div class="hamburger-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </button>
+
+    <!-- Overlay for when menu is open -->
+    <div class="overlay" [class.show]="isMenuOpen" (click)="closeMenu()"></div>
+
+    <!-- Side Menu -->
+    <nav class="side-menu" [class.menu-open]="isMenuOpen">
+        <div class="logo">
+            <img src="images/paola.png" alt="Elezioni comunali Paola" class="icon">
+            <h3>Elezioni Comunali Paola</h3>
+        </div>
+
+        <div class="menu">
+            <ul class="main-menu">
+                <li><a routerLink="/dashboard" routerLinkActive="active">Exit Pool</a></li>
+                <li><a routerLink="/seat-results" routerLinkActive="active">Risultati Seggio</a></li>
+                <li><a routerLink="/candidate-results" routerLinkActive="active">Consiglio Comunale Eletto</a></li>
+                <li><a routerLink="/candidates" routerLinkActive="active">Liste e Candidati</a></li>
+            </ul>
+            <ul class="bottom-menu">
+                <li><a routerLink="/seats" routerLinkActive="active">Login</a></li>
+            </ul>
+        </div>
+
+        <div class="footer">
+            <p class="credits">Realizzato da<br>Luca Pastore, Paolo Sciammarella e Armando Santoro</p>
+            <p class="copyright">© 2025 Elezioni Comunali Paola - ScrutinioLive<br>Tutti i diritti riservati</p>
+            <p class="legal">Protetto da: L. 633/1941<br>D.Lgs. 30/2005</p>
+            <p class="disclaimer">I dati mostrati sono da ritenersi indicativi e potrebbero differire da quelli
+                ufficiali.
+                Il codice sorgente e il concept di questa applicazione sono protetti
+                dalle leggi sul copyright e sulla proprietà intellettuale (L. 633/1941, D.Lgs. 30/2005).</p>
+        </div>
+    </nav>
+</div>

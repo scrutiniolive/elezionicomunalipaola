@@ -1,0 +1,100 @@
+.party-column {
+  display: flex;
+  flex-direction: column;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  overflow: hidden;
+  height: 100%;
+}
+
+.party-header {
+  padding: 12px;
+  text-align: center;
+  background-color: white;
+  border-bottom: 1px solid #e9ecef;
+  
+.party-icon {
+    width: 60px;
+    height: 60px;
+    background-color: #3498db;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 10px;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.2s;
+    overflow: hidden; // Aggiunto per nascondere parti dell'immagine che eccedono
+    
+    img {
+        width: 100%;     // L'immagine occuperà il 100% del contenitore
+        height: 100%;    // L'immagine occuperà il 100% del contenitore
+        object-fit: cover;   // L'immagine manterrà le proporzioni coprendo l'area
+        // object-fit: contain; // Alternativa se vuoi vedere l'immagine intera
+    }
+    
+    i {
+        font-size: 18px;
+    }
+    
+    &:hover {
+        transform: scale(1.1);
+        background-color: #2980b9;
+    }
+}
+  
+  .party-name {
+    margin: 0;
+    font-size: 16px;
+    color: #2c3e50;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.cards-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  overflow-y: auto;
+  max-height: calc(100vh - 180px);
+ 
+  
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: #f8f9fa;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background-color: #cfd9db;
+    border-radius: 6px;
+  }
+}
+
+// Personalizzazioni per partiti specifici (opzionale)
+:host-context(.party-id-1) .party-icon {
+  background-color: #3498db; // Blu per PD
+}
+
+:host-context(.party-id-2) .party-icon {
+  background-color: #2ecc71; // Verde per FI
+}
+
+:host-context(.party-id-3) .party-icon {
+  background-color: #f1c40f; // Giallo per M5S
+}
+
+:host-context(.party-id-4) .party-icon {
+  background-color: #9b59b6; // Viola per FdI
+}
+
+:host-context(.party-id-5) .party-icon {
+  background-color: #e67e22; // Arancione per Lega
+}

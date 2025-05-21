@@ -1,0 +1,13 @@
+export * from './authenticationController.service';
+import { AuthenticationControllerService } from './authenticationController.service';
+export * from './cardController.service';
+import { CardControllerService } from './cardController.service';
+export * from './dashboardController.service';
+import { DashboardControllerService } from './dashboardController.service';
+export * from './electionDisplayController.service';
+import { ElectionDisplayControllerService } from './electionDisplayController.service';
+export * from './sectionController.service';
+import { SectionControllerService } from './sectionController.service';
+export * from './voteController.service';
+import { VoteControllerService } from './voteController.service';
+export const APIS = [AuthenticationControllerService, CardControllerService, DashboardControllerService, ElectionDisplayControllerService, SectionControllerService, VoteControllerService];

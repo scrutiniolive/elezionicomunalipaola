@@ -1,0 +1,129 @@
+.person-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  height: 100%;
+  transition: box-shadow 0.2s;
+  
+  &:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+  }
+}
+
+.card-left {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0; // Importante per il text-overflow
+}
+
+.image-container {
+  height: 130px;
+  overflow: hidden;
+  
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.info {
+  padding: 8px;
+  min-width: 0; // Importante per il text-overflow
+}
+
+.last-name {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: #2c3e50;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.first-name {
+  margin: 2px 0 0;
+  font-size: 11px;
+  color: #7f8c8d;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px;
+  background-color: #f8f9fa;
+  border-left: 1px solid #e9ecef;
+  width: 50px;
+}
+
+.counter {
+  font-size: 18px;
+  font-weight: 700;
+  color: #3498db;
+  padding: 5px 0;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+}
+
+.btn {
+  width: 100%;
+  height: 24px;
+  border-radius: 4px;
+  border: none;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+  
+  &.increment {
+    background-color: #2ecc71;
+    color: white;
+    
+    &:hover {
+      background-color: #27ae60;
+    }
+    
+    &:active {
+      background-color: #219d54;
+    }
+  }
+  
+  &.decrement {
+    background-color: #e74c3c;
+    color: white;
+    
+    &:hover {
+      background-color: #c0392b;
+    }
+    
+    &:active {
+      background-color: #a33025;
+    }
+  }
+    &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    
+    &:hover {
+      background-color: initial; // rimuove l'effetto hover
+    }
+  }
+}

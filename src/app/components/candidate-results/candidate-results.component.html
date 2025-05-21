@@ -1,0 +1,14 @@
+<!-- seat.component.html -->
+<div class="seats-container">
+    <div *ngIf="parties.length === 0" class="no-data">
+        <p>Nessun dato disponibile</p>
+    </div>
+    <div class="party-container" *ngFor="let party of parties">
+        <h2 class="party-name">{{ party.name }}</h2>
+        <div class="cards-grid">
+            <app-person-card-no-counter *ngFor="let person_card of party.candidateModels"
+                [candidateCardModel]="person_card">
+            </app-person-card-no-counter>
+        </div>
+    </div>
+</div>
