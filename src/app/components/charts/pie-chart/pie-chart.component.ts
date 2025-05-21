@@ -8,51 +8,81 @@ import { interval, map, Subscription } from 'rxjs';
 
 
 Chart.register(...registerables);
-
-
-
 @Component({
     selector: 'app-pie-chart',
     standalone: true,
     imports: [CommonModule, BaseChartDirective],
     template: `
       <div class="chart-container">
-            <h3>{{ title }}</h3>
-            <ng-container *ngIf="hasData; else noData">
-                <canvas baseChart
-                    [data]="pieChartData"
-                    [options]="pieChartOptions"
-                    [type]="'pie'">
-                </canvas>
-            </ng-container>
-            <ng-template #noData>
-                <div class="no-data-message">
-                    <p>Nessun dato disponibile</p>
-                </div>
-            </ng-template>
-        </div>
+        <h3>{{ title }}</h3>
+        <ng-container *ngIf="hasData; else noData">
+          <div class="chart-wrapper">
+            <canvas baseChart
+              [data]="pieChartData"
+              [options]="pieChartOptions"
+              [type]="'pie'">
+            </canvas>
+          </div>
+        </ng-container>
+        <ng-template #noData>
+          <div class="no-data-message">
+            <p>Nessun dato disponibile</p>
+          </div>
+        </ng-template>
+      </div>
     `,
     styles: [`
-        .chart-container {
-            h3 {
-                margin-top: 0;
-                margin-bottom: 15px;
-                color: #2c3e50;
-            }
+      .chart-container {
+        width: 100%;
+        max-width: 100%;
+        
+        h3 {
+          margin-top: 0;
+          margin-bottom: 15px;
+          color: #2c3e50;
+          font-size: 1.2rem;
+          text-align: center;
+          padding: 0 10px;
+          overflow-wrap: break-word;
         }
-        .no-data-message {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 200px;
-            background-color: #f8f9fa;
-            border-radius: 8px;
-            p {
-                color: #6c757d;
-                font-size: 1.1em;
-            }
+      }
+
+      .chart-wrapper {
+        position: relative;
+        height: 280px;
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .no-data-message {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 200px;
+        width: 100%;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        
+        p {
+          color: #6c757d;
+          font-size: 1.1em;
         }
-  `]
+      }
+
+      @media (max-width: 768px) {
+        .chart-wrapper {
+          height: 220px;
+        }
+        
+        .chart-container h3 {
+          font-size: 1rem;
+        }
+      }
+    `]
 })
 export class PieChartComponent implements OnInit, OnDestroy, OnChanges {
 
@@ -70,14 +100,39 @@ export class PieChartComponent implements OnInit, OnDestroy, OnChanges {
 
     ngOnInit(): void {
         if (this.customData) {
-            // Usa i dati personalizzati passati direttamente
             this.pieChartData = this.customData;
         } else {
-            // Altrimenti carica i dati in base al dataSource
             this.loadChartData();
             this.updateSubscription = interval(300000).subscribe(() => {
                 this.loadChartData();
             });
+        }
+
+        // Aggiunta della gestione delle dimensioni della finestra
+        this.adjustChartLayoutForScreenSize();
+        window.addEventListener('resize', this.adjustChartLayoutForScreenSize.bind(this));
+    }
+
+    ngOnDestroy() {
+        if (this.updateSubscription) {
+            this.updateSubscription.unsubscribe();
+        }
+        window.removeEventListener('resize', this.adjustChartLayoutForScreenSize.bind(this));
+    }
+
+    private adjustChartLayoutForScreenSize() {
+        const isMobile = window.innerWidth < 768;
+        const isTablet = window.innerWidth >= 768 && window.innerWidth < 1200;
+
+        // Aggiorna le opzioni del chart in base alla dimensione dello schermo
+        if (this.pieChartOptions && this.pieChartOptions.plugins && this.pieChartOptions.plugins.legend) {
+            if (isMobile) {
+                this.pieChartOptions.plugins.legend.position = 'bottom';
+            } else if (isTablet) {
+                this.pieChartOptions.plugins.legend.position = 'right';
+            } else {
+                this.pieChartOptions.plugins.legend.position = 'right';
+            }
         }
     }
 
@@ -86,12 +141,7 @@ export class PieChartComponent implements OnInit, OnDestroy, OnChanges {
         this.loadChartData();
     }
 
-    ngOnDestroy() {
-        // Importante: annulla la sottoscrizione quando il componente viene distrutto
-        if (this.updateSubscription) {
-            this.updateSubscription.unsubscribe();
-        }
-    }
+
 
     public pieChartData: ChartConfiguration<'pie'>['data'] = {
         labels: [],
@@ -103,9 +153,39 @@ export class PieChartComponent implements OnInit, OnDestroy, OnChanges {
 
     public pieChartOptions: ChartConfiguration<'pie'>['options'] = {
         responsive: true,
+        maintainAspectRatio: false,
+        layout: {
+            padding: {
+                top: 0,
+                right: 0,
+                bottom: 0,
+                left: 0
+            }
+        },
         plugins: {
             legend: {
-                position: 'right',
+                position: 'bottom',
+                align: 'start',
+                labels: {
+                    boxWidth: 10,
+                    padding: 10,
+                    font: {
+                        size: 11
+                    }
+                },
+                display: true
+            },
+            tooltip: {
+                enabled: true,
+                callbacks: {
+                    label: function (context) {
+                        const dataset = context.dataset;
+                        const total = dataset.data.reduce((acc, data) => acc + data, 0);
+                        const value = dataset.data[context.dataIndex];
+                        const percentage = ((value / total) * 100).toFixed(1);
+                        return `${value} (${percentage}%)`;
+                    }
+                }
             }
         }
     };
