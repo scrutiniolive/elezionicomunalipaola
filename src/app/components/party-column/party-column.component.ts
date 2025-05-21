@@ -14,6 +14,7 @@ import { PartyListCardModel } from '../../api/model/partyListCardModel';
 export class PartyColumnComponent {
     @Input() partyListCardModel!: PartyListCardModel;
     @Input() ballotOpen: boolean = false;
+    @Input() showCounter: boolean = false;
     @Output() iconClick = new EventEmitter<void>();
     @Output() incrementCounter = new EventEmitter<number>();
     @Output() decrementCounter = new EventEmitter<number>();

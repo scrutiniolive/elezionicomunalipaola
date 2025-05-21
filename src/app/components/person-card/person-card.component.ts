@@ -16,6 +16,8 @@ import { ImageService } from '../../services/image.service';
 })
 export class PersonCardComponent {
 
+    @Input() showCounter: boolean = false;
+
     constructor(private imageService: ImageService) { };
 
     imageUrl?: string;

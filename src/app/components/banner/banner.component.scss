@@ -1,0 +1,98 @@
+.maintenance-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #ff9800;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    z-index: 9999;
+    font-weight: bold;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.close-button {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 0 5px;
+}
+
+:host {
+    display: block;
+    height: 40px;
+}
+
+@media (min-width: 1201px) {
+    .maintenance-banner {
+        padding: 12px;
+        font-size: 16px;
+    }
+
+    .close-button {
+        font-size: 22px;
+        right: 15px;
+    }
+
+    :host {
+        height: 44px;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1200px) {
+    .maintenance-banner {
+        padding: 11px;
+        font-size: 15px;
+    }
+
+    .close-button {
+        font-size: 21px;
+        right: 12px;
+    }
+
+    :host {
+        height: 42px;
+    }
+}
+
+@media (max-width: 768px) {
+    .maintenance-banner {
+        padding: 9px;
+        font-size: 14px;
+    }
+
+    .close-button {
+        font-size: 19px;
+        right: 8px;
+    }
+
+    :host {
+        height: 38px;
+    }
+}
+
+@media (max-width: 480px) {
+    .maintenance-banner {
+        padding: 8px;
+        font-size: 12px;
+    }
+
+    .close-button {
+        font-size: 18px;
+        right: 6px;
+    }
+
+    :host {
+        height: 36px;
+    }
+}

@@ -31,27 +31,17 @@
 }
 
 @media (max-width: 1200px) {
-    .dashboard {
-        .card-container {
-            grid-template-columns: repeat(2, 1fr);
-        }
+    .card-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
 
-        .chart-container {
-            .chart-row {
-                flex-direction: column;
-
-                .chart-col {
-                    margin-bottom: 20px; // Aggiunto per aggiungere spazio tra i grafici in verticale
-                }
-            }
-        }
+    .chart-row {
+        flex-direction: column;
     }
 }
 
 @media (max-width: 768px) {
-    .dashboard {
-        .card-container {
-            grid-template-columns: 1fr;
-        }
+    .card-container {
+        grid-template-columns: 1fr;
     }
 }

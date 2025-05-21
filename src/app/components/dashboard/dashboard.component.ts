@@ -20,62 +20,58 @@ import { DashboardControllerService, ElectionDisplayControllerService, VoteContr
     ],
     template: `
     <div class="dashboard">
-
-      
-        <div class="card-container">
-        <app-counter-card
-          [title]="'Stato Scrutinio'"
-          [value]="liveState"
-          [icon]="'tower-broadcast'"
-          [prefix]="''"
-        ></app-counter-card>
-        
-        <app-counter-card
-          [title]="'Votanti'"
-          [value]="votes"
-          [icon]="'pencil'"
-          [prefix]="''"
-        ></app-counter-card>
-        
-        <app-counter-card
-          [title]="'Partito in Vantaggio'"
-          [value]="party"
-          [icon]="'landmark'"
-          [prefix]="''"
-        ></app-counter-card>
-        
-        <app-counter-card
-          [title]="'Seggi Attivi'"
-          [value]="numSection"
-          [icon]="'person-booth'"
-          [prefix]="''"
-        ></app-counter-card>
+  <div class="card-container">
+    <app-counter-card
+      [title]="'Stato Scrutinio'"
+      [value]="liveState"
+      [icon]="'tower-broadcast'"
+      [prefix]="''"
+    ></app-counter-card>
+    
+    <app-counter-card
+      [title]="'Votanti'"
+      [value]="votes"
+      [icon]="'pencil'"
+      [prefix]="''"
+    ></app-counter-card>
+    
+    <app-counter-card
+      [title]="'Partito in Vantaggio'"
+      [value]="party"
+      [icon]="'landmark'"
+      [prefix]="''"
+    ></app-counter-card>
+    
+    <app-counter-card
+      [title]="'Seggi Attivi'"
+      [value]="numSection"
+      [icon]="'person-booth'"
+      [prefix]="''"
+    ></app-counter-card>
+  </div>
+  
+  <div class="chart-container">
+    <div class="chart-row">
+      <div class="chart-col">
+         <app-pie-chart
+           dataSource="mayors"
+           title="Voti Candidati a Sindaco">
+         </app-pie-chart>
       </div>
-      
-      <div class="chart-container">
-       
-        <div class="chart-row">
-          <div class="chart-col">
-             <app-pie-chart
-        dataSource="mayors"
-        title="Voti Candidati a Sindaco">
-    </app-pie-chart>
-          </div>
-          <div class="chart-col">
-            <app-pie-chart
-        dataSource="votes"
-        title="Schede Elettorali">
-    </app-pie-chart>
-          </div>
-          
-        </div>
-         <div class="chart-row">
-          <div class="chart-col">
-            <app-bar-chart dataSource="dashboard" > </app-bar-chart>
-          </div>
-        </div>
+      <div class="chart-col">
+        <app-pie-chart
+          dataSource="votes"
+          title="Schede Elettorali">
+        </app-pie-chart>
       </div>
     </div>
+    <div class="chart-row">
+      <div class="chart-col">
+        <app-bar-chart dataSource="dashboard"></app-bar-chart>
+      </div>
+    </div>
+  </div>
+</div>
   `,
     styleUrls: ['./dashboard.component.scss']
 })

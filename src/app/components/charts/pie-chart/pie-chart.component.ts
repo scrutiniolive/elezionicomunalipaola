@@ -103,27 +103,9 @@ export class PieChartComponent implements OnInit, OnDestroy, OnChanges {
 
     public pieChartOptions: ChartConfiguration<'pie'>['options'] = {
         responsive: true,
-        maintainAspectRatio: false, // Importante per adattarsi ai contenitori
-        layout: {
-            padding: {
-                left: 5,
-                right: 5,
-                top: 5,
-                bottom: 5
-            }
-        },
         plugins: {
             legend: {
                 position: 'right',
-                display: true,
-                labels: {
-                    boxWidth: 12,
-                    padding: 10,
-                    // Riduce la dimensione del testo su schermi piccoli
-                    font: {
-                        size: window.innerWidth < 768 ? 10 : 12
-                    }
-                }
             }
         }
     };

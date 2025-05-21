@@ -3,14 +3,14 @@ import { CommonModule } from '@angular/common';
 import { PartyListCardModel } from '../../api/model/partyListCardModel';
 import { CardControllerService } from '../../api/api/cardController.service';
 import { PartyContainerComponent } from '../party-container/party-container.component';
-import { PersonCardComponent } from '../person-card/person-card.component';
-import { PersonCardComponentNoCounter } from '../person-card-no-counter/person-card-no-counter.component';
+
+
 
 
 @Component({
     selector: 'app-candidate-results',
     standalone: true,
-    imports: [CommonModule, PersonCardComponentNoCounter],
+    imports: [CommonModule, PartyContainerComponent],
     templateUrl: './candidate-results.component.html',
     styleUrl: './candidate-results.component.scss'
 })
@@ -19,6 +19,7 @@ export class CandidateResultsComponent {
     parties: PartyListCardModel[] = [];
     loading = false;
     error = '';
+    showCounter = false
 
     constructor(
         private cardControllerService: CardControllerService,
