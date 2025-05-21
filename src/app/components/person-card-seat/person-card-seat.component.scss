@@ -63,14 +63,79 @@
     padding: 8px;
     background-color: #f8f9fa;
     border-left: 1px solid #e9ecef;
-    width: 50px;
+    min-width: 50px;
+    width: auto;
+    max-width: 80px;
 }
 
 .counter {
-    font-size: 18px;
-    font-weight: 700;
-    color: #3498db;
+    width: 100%;
+    text-align: center;
     padding: 5px 0;
+
+    input {
+        width: 100%;
+        background: transparent;
+        border: none;
+        text-align: center;
+        color: #3498db;
+        font-weight: 700;
+        padding: 0 2px;
+        margin: 0;
+        min-width: 0;
+        max-width: 100%;
+        font-family: monospace;
+        font-size: 16px;
+        transition: all 0.2s ease;
+
+        // Base size adjustments
+        &[type="number"] {
+            -moz-appearance: textfield;
+
+            &:not(:placeholder-shown) {
+                &[value^="1"] {
+                    font-size: 16px;
+                }
+
+                &[value^="10"] {
+                    font-size: 15px;
+                }
+
+                &[value^="100"] {
+                    font-size: 14px;
+                }
+
+                &[value^="1000"] {
+                    font-size: 13px;
+                }
+
+                &[value^="10000"] {
+                    font-size: 12px;
+                }
+
+                &[value^="100000"] {
+                    font-size: 11px;
+                }
+            }
+        }
+
+        &::-webkit-inner-spin-button,
+        &::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        &:focus {
+            outline: none;
+        }
+
+        &:disabled {
+            background: transparent;
+            color: inherit;
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    }
 }
 
 .buttons {
@@ -129,6 +194,7 @@
     }
 }
 
+// Large screens
 @media (min-width: 1201px) {
     .info {
         padding: 10px;
@@ -143,11 +209,38 @@
     }
 
     .card-right {
-        width: 55px;
+        min-width: 55px;
+        max-width: 85px;
     }
 
-    .counter {
-        font-size: 20px;
+    .counter input {
+        font-size: 18px;
+
+        &[type="number"]:not(:placeholder-shown) {
+            &[value^="1"] {
+                font-size: 2px;
+            }
+
+            &[value^="10"] {
+                font-size: 2px;
+            }
+
+            &[value^="100"] {
+                font-size: 2px;
+            }
+
+            &[value^="1000"] {
+                font-size: 2px;
+            }
+
+            &[value^="10000"] {
+                font-size: 2px;
+            }
+
+            &[value^="100000"] {
+                font-size: 2px;
+            }
+        }
     }
 
     .btn {
@@ -155,25 +248,92 @@
     }
 }
 
+// Medium screens
 @media (min-width: 769px) and (max-width: 1200px) {
     .image-container {
         height: 120px;
     }
+
+    .card-right {
+        min-width: 50px;
+        max-width: 75px;
+    }
+
+    .counter input {
+        font-size: 16px;
+
+        &[type="number"]:not(:placeholder-shown) {
+            &[value^="1"] {
+                font-size: 16px;
+            }
+
+            &[value^="10"] {
+                font-size: 15px;
+            }
+
+            &[value^="100"] {
+                font-size: 14px;
+            }
+
+            &[value^="1000"] {
+                font-size: 13px;
+            }
+
+            &[value^="10000"] {
+                font-size: 12px;
+            }
+
+            &[value^="100000"] {
+                font-size: 11px;
+            }
+        }
+    }
 }
 
+// Small screens
 @media (max-width: 768px) {
     .image-container {
         height: 110px;
     }
 
     .card-right {
-        width: 45px;
+        min-width: 45px;
+        max-width: 70px;
         padding: 6px;
     }
 
     .counter {
-        font-size: 16px;
         padding: 3px 0;
+
+        input {
+            font-size: 14px;
+
+            &[type="number"]:not(:placeholder-shown) {
+                &[value^="1"] {
+                    font-size: 14px;
+                }
+
+                &[value^="10"] {
+                    font-size: 13px;
+                }
+
+                &[value^="100"] {
+                    font-size: 12px;
+                }
+
+                &[value^="1000"] {
+                    font-size: 11px;
+                }
+
+                &[value^="10000"] {
+                    font-size: 10px;
+                }
+
+                &[value^="100000"] {
+                    font-size: 9px;
+                }
+            }
+        }
     }
 
     .buttons {
@@ -186,6 +346,7 @@
     }
 }
 
+// Extra small screens
 @media (max-width: 480px) {
     .person-card {
         border-radius: 6px;
@@ -208,13 +369,43 @@
     }
 
     .card-right {
-        width: 40px;
+        min-width: 40px;
+        max-width: 65px;
         padding: 5px;
     }
 
     .counter {
-        font-size: 15px;
         padding: 2px 0;
+
+        input {
+            font-size: 13px;
+
+            &[type="number"]:not(:placeholder-shown) {
+                &[value^="1"] {
+                    font-size: 13px;
+                }
+
+                &[value^="10"] {
+                    font-size: 12px;
+                }
+
+                &[value^="100"] {
+                    font-size: 11px;
+                }
+
+                &[value^="1000"] {
+                    font-size: 10px;
+                }
+
+                &[value^="10000"] {
+                    font-size: 9px;
+                }
+
+                &[value^="100000"] {
+                    font-size: 8px;
+                }
+            }
+        }
     }
 
     .btn {

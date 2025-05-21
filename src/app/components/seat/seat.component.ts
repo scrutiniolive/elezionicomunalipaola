@@ -163,6 +163,32 @@ export class SeatComponent implements OnInit {
         });
     }
 
+    // Gestione del decremento del contatore
+    onSetCounter(candidateId: number, value: number): void {
+        const voteRequest: VoteRequest = { candidateId: candidateId, deleted: false, blankVote: false, nullVote: false };
+        this.partyListCardModels.forEach(party => {
+            const candidate = party.candidateModels?.find(c => c.id === candidateId);
+            if (candidate && value && value >= 0) {
+                this.voteControllerService.insertVote(voteRequest)
+                    .subscribe({
+                        next: (data) => {
+                            candidate.counter = (candidate.counter || 0) - 1;
+                        },
+                        error: (err) => {
+                            switch (err.status) {
+                                case 401:
+                                    this.authService.logout();
+                                    this.router.navigate(['/seats/login']);
+                                    break;
+                                default:
+                                    this.error = 'Voto non caricato: ' + (err.error?.message || err.message);
+                            }
+                        }
+                    });
+            }
+        });
+    }
+
 
     onNullVotesClick(): void {
         const voteRequest: VoteRequest = { deleted: false, blankVote: false, nullVote: true };

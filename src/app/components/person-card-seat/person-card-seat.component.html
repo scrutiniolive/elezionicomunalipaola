@@ -11,7 +11,11 @@
         </div>
     </div>
     <div class="card-right">
-        <div class="counter">{{ candidateCardModel.counter }}</div>
+        <div class="counter">
+            <input type="number" [(ngModel)]="tempCounter" [disabled]="!ballotOpen"
+                (keydown.escape)="validateAndUpdate()" (keydown.enter)="validateAndUpdate()"
+                (blur)="validateAndUpdate()" min="0" class="counter-input">
+        </div>
         <div class="buttons">
             <button class="btn increment" [disabled]="!ballotOpen" (click)="onIncrement($event)">+</button>
             <button class="btn decrement" [disabled]="!ballotOpen" (click)="onDecrement($event)">−</button>
