@@ -8,26 +8,37 @@ let cachedIP: string | null = null;
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
     const http = inject(HttpClient);
 
-    // Usa un early return per le chiamate pubbliche
-    if (req.url.includes('/pub')) return next(req);
-
     // Evita loop infiniti: non intercettare la richiesta per ottenere l'IP
     if (req.url.includes('api.ipify.org') || req.url.includes('ipapi.co')) {
         return next(req);
     }
 
-    const token = localStorage.getItem('auth_token');
-    let enhancedReq = token
-        ? req.clone({
-            headers: req.headers.set('Authorization', `Bearer ${token}`)
-        })
-        : req;
+    let enhancedReq = req.clone(); // Clona la richiesta *inizialmente*
 
-    // Se abbiamo già l'IP in cache, usalo direttamente
-    if (cachedIP) {
-        enhancedReq = enhancedReq.clone({
-            headers: enhancedReq.headers.set('ip-statistics', cachedIP)
+    // Funzione per aggiungere l'header 'ip-statistics'
+    const addIpHeader = (request: any, ip: string | null): any => {
+        return request.clone({
+            headers: request.headers.set('ip-statistics', ip || 'unknown')
         });
+    };
+
+    // Aggiungi l'header 'ip-statistics' (con valore in cache o 'unknown' se non disponibile)
+    if (cachedIP) {
+        enhancedReq = addIpHeader(enhancedReq, cachedIP);
+    }
+
+    // Gestisci il token (solo se il path *non* contiene /pub)
+    if (!req.url.includes('/pub')) {
+        const token = localStorage.getItem('auth_token');
+        if (token) {
+            enhancedReq = enhancedReq.clone({
+                headers: enhancedReq.headers.set('Authorization', `Bearer ${token}`)
+            });
+        }
+    }
+
+    // Se abbiamo già l'IP in cache, invia la richiesta
+    if (cachedIP) {
         return next(enhancedReq);
     }
 
@@ -35,16 +46,12 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     return http.get('https://api.ipify.org?format=json').pipe(
         switchMap((response: any) => {
             cachedIP = response.ip;
-
-            // Clona la richiesta con l'header IP aggiunto
-            enhancedReq = enhancedReq.clone({
-                headers: enhancedReq.headers.set('ip-statistics', cachedIP || 'unknown')
-            });
-
+            enhancedReq = addIpHeader(enhancedReq, cachedIP); // Aggiungi l'IP dopo averlo recuperato
             return next(enhancedReq);
         }),
         catchError(() => {
-            // In caso di errore, procedi con la richiesta senza l'header IP
+            // In caso di errore, procedi con la richiesta con 'unknown' come IP
+            enhancedReq = addIpHeader(enhancedReq, null); // Assicurati che ip-statistics sia presente, anche in caso di errore
             return next(enhancedReq);
         })
     );
