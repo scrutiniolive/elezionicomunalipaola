@@ -64,23 +64,31 @@ interface SectionData {
              <app-pie-chart
         dataSource="seat-mayors"
          [sectionId]="selectedSectionData?.id"
-        title="Voti Candidati a Sindaco">
-    </app-pie-chart>
-          </div>
-          <div class="chart-col">
-            <app-pie-chart
-        dataSource="seat-votes"
-        [sectionId]="selectedSectionData?.id"
-        title="Schede Elettorali">   
+        title="Distribuzione Voti Sindaco">
     </app-pie-chart>
           </div>
           
+          
         </div>
-         <div class="chart-row">
+
+
+        <div class="chart-row">
           <div class="chart-col">
              <app-bar-chart dataSource="seat-councillors"   [sectionId]="selectedSectionData?.id"> </app-bar-chart>
           </div>
         </div>
+
+ <div class="chart-row">
+        <div class="chart-col">
+            <app-pie-chart
+        dataSource="seat-votes"
+        [sectionId]="selectedSectionData?.id"
+        title="Distribuzione Schede Elettorali">   
+    </app-pie-chart>
+          </div>
+ </div>
+
+         
     </div>
       
     </div>
@@ -127,18 +135,18 @@ export class SeatResultsComponent implements OnInit, OnDestroy {
             id: section.id || 0,
             name: section.name || '',
             state: section.ballotOpen ? 'Aperto' : 'Chiuso',
-            votes: section.votes ? section.votes.toString() : '-'
+            votes: '-'
         }));
     }
     onSectionChange(): void {
         if (this.selectedSection) {
-            this.electionDisplayControllerService.sectionInfo(this.selectedSection).subscribe({
+            this.dashboardControllerService.globalSectionStats(this.selectedSection).subscribe({
                 next: (data) => {
                     this.selectedSectionData = {
-                        id: data.id,
-                        name: data.name || '',
-                        state: data.ballotOpen ? 'Aperto' : 'Chiuso',
-                        votes: data.votes ? data.votes.toString() : '-'
+                        id: data.sectionId,
+                        name: data.sectionName || '',
+                        state: data.sectionClosed ? 'Aperto' : 'Chiuso',
+                        votes: ((data.totalVotes ?? 0) - (data.blanks ?? 0) - (data.nulls ?? 0)).toString()
                     } as SectionData;
                 },
                 error: (err) => console.error('Errore nel caricamento dei dettagli sezione:', err)
@@ -155,7 +163,7 @@ export class SeatResultsComponent implements OnInit, OnDestroy {
                     this.liveState = data.countingInProgress ? 'In Diretta' : "Terminato",
                         this.numSection = data.sectionClosed ? (17 - data.sectionClosed).toString() + ' di 17' : '-',
                         this.party = data.leadPartyList ? data.leadPartyList : '-',
-                        this.votes = data.totalVotes ? data.totalVotes.toString() : '-'
+                        this.votes = "-"
                 },
                 error: (err) => console.error('Errore nel caricamento dei dati:', err)
             });

@@ -12,6 +12,7 @@ import { CandidateDto } from './candidateDto';
 
 export interface VoteResponse { 
     sectionId?: number;
+    sectionName?: string;
     totalVotes?: number;
     blanks?: number;
     nulls?: number;

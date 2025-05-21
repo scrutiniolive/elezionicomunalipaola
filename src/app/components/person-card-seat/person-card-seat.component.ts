@@ -41,18 +41,19 @@ export class PersonCardSeatComponent {
     onIncrement(event: Event): void {
         // Ferma la propagazione dell'evento per evitare che si attivi anche l'evento click della card
         event.stopPropagation();
-        this.increment.emit(
-            this.candidateCardModel.id
-        );
+        this.tempCounter = this.tempCounter + 1;
+
+        this.validateAndUpdate();
     }
+
+
 
     onDecrement(event: Event): void {
         // Ferma la propagazione dell'evento
         console.log(`PersonCardSeatComponent Pulsante incremento cliccato ${this.candidateCardModel.id}`);
         event.stopPropagation();
-        this.decrement.emit(
-            this.candidateCardModel.id
-        );
+        this.tempCounter = this.tempCounter - 1;
+        this.validateAndUpdate()
     }
 
     validateAndUpdate() {

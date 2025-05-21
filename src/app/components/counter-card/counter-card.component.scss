@@ -5,6 +5,8 @@
     padding: 20px;
     display: flex;
     align-items: center;
+    width: 100%;
+    box-sizing: border-box; // Assicura che padding non causi overflow
 
     .icon {
         background-color: #3498db;
@@ -17,14 +19,21 @@
         justify-content: center;
         font-size: 24px;
         margin-right: 11px;
+        flex-shrink: 0; // Impedisce all'icona di rimpicciolirsi
     }
 
     .content {
+        flex: 1; // Permette al contenuto di espandersi
+        min-width: 0; // Necessario per permettere al testo di troncare se necessario
+
         h3 {
             margin: 0;
             color: #7f8c8d;
             font-size: 16px;
             font-weight: 500;
+            white-space: nowrap; // Evita che il titolo vada a capo
+            overflow: hidden;
+            text-overflow: ellipsis; // Aggiunge ... quando il testo è troppo lungo
         }
 
         .value {
@@ -32,6 +41,9 @@
             font-weight: 700;
             margin: 5px 0 0;
             color: #2c3e50;
+            white-space: nowrap; // Evita che il valore vada a capo
+            overflow: hidden;
+            text-overflow: ellipsis; // Aggiunge ... quando il testo è troppo lungo
         }
     }
 }
@@ -107,24 +119,89 @@
 
 @media (max-width: 480px) {
     .counter-card {
-        padding: 12px;
+        padding: 12px 10px; // Ridotto il padding orizzontale
+        min-height: 70px; // Altezza minima per evitare che diventi troppo piccola
 
         .icon {
-            width: 36px;
-            height: 36px;
-            font-size: 18px;
+            width: 34px;
+            height: 34px;
+            font-size: 16px;
             margin-right: 8px;
         }
 
         .content {
             h3 {
-                font-size: 13px;
+                font-size: 12px;
             }
 
             .value {
-                font-size: 18px;
-                margin: 3px 0 0;
+                font-size: 16px;
+                margin: 2px 0 0;
             }
+        }
+    }
+}
+
+// Per schermi molto piccoli
+@media (max-width: 359px) {
+    .counter-card {
+        padding: 10px 8px;
+
+        .icon {
+            width: 30px;
+            height: 30px;
+            font-size: 14px;
+            margin-right: 6px;
+        }
+
+        .content {
+            h3 {
+                font-size: 11px;
+            }
+
+            .value {
+                font-size: 15px;
+                margin: 1px 0 0;
+            }
+        }
+    }
+}
+
+// Quando l'orientamento è orizzontale in mobile, ottimizziamo lo spazio
+@media (max-height: 480px) and (orientation: landscape) {
+    .counter-card {
+        padding: 10px;
+        min-height: 60px;
+
+        .icon {
+            width: 32px;
+            height: 32px;
+            font-size: 15px;
+            margin-right: 8px;
+        }
+
+        .content {
+            h3 {
+                font-size: 12px;
+            }
+
+            .value {
+                font-size: 15px;
+                margin: 1px 0 0;
+            }
+        }
+    }
+}
+
+// Per schermi ad alta densità di pixel (per migliorare la leggibilità)
+@media (-webkit-min-device-pixel-ratio: 2),
+(min-resolution: 192dpi) {
+    .counter-card .content {
+
+        h3,
+        .value {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
     }
 }

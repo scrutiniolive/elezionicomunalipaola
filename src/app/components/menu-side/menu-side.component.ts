@@ -10,7 +10,7 @@ import { RouterModule } from '@angular/router';
     styleUrls: ['./menu-side.component.scss']
 })
 export class MenuSideComponent {
-    isMenuOpen: boolean = true;
+    isMenuOpen: boolean = false;
     @Output() menuToggled = new EventEmitter<boolean>();
 
     toggleMenu() {

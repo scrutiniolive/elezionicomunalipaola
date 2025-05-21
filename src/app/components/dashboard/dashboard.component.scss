@@ -1,5 +1,6 @@
 .dashboard {
     padding: 15px;
+    overflow-x: hidden; // Previene lo scroll orizzontale
 
     h1 {
         margin-bottom: 20px;
@@ -11,6 +12,70 @@
         grid-template-columns: repeat(4, 1fr);
         gap: 20px;
         margin-bottom: 30px;
+
+        &>* {
+            height: 92px;
+        }
+    }
+
+    .selector-card {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        box-sizing: border-box;
+
+        .icon {
+            background-color: #3498db;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-right: 11px;
+            flex-shrink: 0;
+        }
+
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            h3 {
+                margin: 0;
+                color: #7f8c8d;
+                font-size: 16px;
+                font-weight: 500;
+                margin-bottom: 8px;
+            }
+
+            select {
+                width: 100%;
+                padding: 8px;
+                border-radius: 4px;
+                border: 1px solid #ddd;
+                font-size: 16px;
+                color: #2c3e50;
+                background-color: #f8f9fa;
+                cursor: pointer;
+
+                &:focus {
+                    outline: none;
+                    border-color: #3498db;
+                    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+                }
+
+                &:hover {
+                    border-color: #3498db;
+                }
+            }
+        }
     }
 
     .chart-container {
@@ -25,23 +90,262 @@
                 border-radius: 8px;
                 box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
                 padding: 20px;
+                min-height: 300px; // Altezza minima per i grafici
             }
         }
     }
 }
 
-@media (max-width: 1200px) {
-    .card-container {
-        grid-template-columns: repeat(2, 1fr);
-    }
+:host {
+    display: block;
+    height: 100%;
 
-    .chart-row {
-        flex-direction: column;
+    .counter-card {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        height: 100%;
+        box-sizing: border-box;
+
+        .icon {
+            background-color: #3498db;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-right: 11px;
+            flex-shrink: 0;
+        }
+
+        .content {
+            h3 {
+                margin: 0;
+                color: #7f8c8d;
+                font-size: 16px;
+                font-weight: 500;
+            }
+
+            .value {
+                font-size: 24px;
+                font-weight: 700;
+                margin: 5px 0 0;
+                color: #2c3e50;
+            }
+        }
+    }
+}
+
+@media (min-width: 1201px) {
+    .dashboard {
+        padding: 20px;
+
+        .card-container {
+            margin-bottom: 35px;
+        }
+
+        .chart-container .chart-row .chart-col {
+            padding: 25px;
+            min-height: 400px;
+        }
+
+        .counter-card,
+        .selector-card {
+            padding: 22px;
+        }
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1200px) {
+    .dashboard {
+        .card-container {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .chart-container {
+            .chart-row {
+                flex-direction: column;
+                gap: 15px;
+
+                .chart-col {
+                    min-height: 350px; // Altezza minima per tablet
+                    max-height: none; // Rimuovi eventuali limiti di altezza massima
+                    width: 100%; // Assicura che il grafico prenda tutta la larghezza
+                }
+            }
+        }
+
+        .selector-card,
+        :host .counter-card {
+            .icon {
+                width: 45px;
+                height: 45px;
+                font-size: 22px;
+            }
+
+            .content h3 {
+                font-size: 15px;
+            }
+
+            .content .value {
+                font-size: 22px;
+            }
+
+            .content select {
+                font-size: 15px;
+                padding: 7px;
+            }
+        }
     }
 }
 
 @media (max-width: 768px) {
-    .card-container {
-        grid-template-columns: 1fr;
+    .dashboard {
+        padding: 12px;
+
+        h1 {
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+
+        .card-container {
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .chart-container {
+            .chart-row {
+                flex-direction: column;
+                gap: 15px;
+                margin-bottom: 15px;
+
+                .chart-col {
+                    padding: 15px;
+                    min-height: 350px; // Altezza minima per tablet
+                    height: auto; // Permette al grafico di espandersi in base al contenuto
+                    width: 100%; // Assicura che il grafico prenda tutta la larghezza
+                }
+            }
+        }
+
+        .selector-card,
+        :host .counter-card {
+            padding: 15px;
+
+            .icon {
+                width: 42px;
+                height: 42px;
+                font-size: 20px;
+                margin-right: 10px;
+            }
+
+            .content h3 {
+                font-size: 14px;
+                margin-bottom: 6px;
+            }
+
+            .content .value {
+                font-size: 20px;
+            }
+
+            .content select {
+                font-size: 14px;
+                padding: 6px;
+            }
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboard {
+        padding: 10px;
+
+        h1 {
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+
+        .card-container {
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .chart-container {
+            .chart-row {
+                gap: 12px;
+                margin-bottom: 12px;
+
+                .chart-col {
+                    padding: 12px;
+                    min-height: 260px; // Altezza minima per mobile
+                    height: auto; // Permette al grafico di espandersi in base al contenuto
+                }
+            }
+        }
+
+        .selector-card,
+        :host .counter-card {
+            padding: 12px;
+
+            .icon {
+                width: 38px;
+                height: 38px;
+                font-size: 18px;
+                margin-right: 8px;
+            }
+
+            .content h3 {
+                font-size: 13px;
+                margin-bottom: 5px;
+            }
+
+            .content .value {
+                font-size: 18px;
+            }
+
+            .content select {
+                font-size: 13px;
+                padding: 5px;
+            }
+        }
+    }
+}
+
+/* Aggiungiamo stili specifici per assicurarsi che i grafici si adattino correttamente */
+::ng-deep .chart-col app-pie-chart,
+::ng-deep .chart-col app-bar-chart {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: inherit;
+    overflow: visible;
+}
+
+/* Stile per assicurarsi che i contenitori SVG dei grafici si adattino */
+::ng-deep .chart-col svg {
+    width: 100% !important;
+    height: 100% !important;
+    max-height: none !important;
+}
+
+/* Per evitare che i grafici vengano tagliati su mobile */
+@media (max-width: 480px) {
+    ::ng-deep .chart-col svg {
+        overflow: visible !important;
+    }
+
+    ::ng-deep .chart-col .chart-legends {
+        flex-wrap: wrap;
+        justify-content: center;
+        font-size: 12px;
     }
 }

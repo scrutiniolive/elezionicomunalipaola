@@ -7,6 +7,8 @@
     justify-content: space-between;
     height: 100%;
     transition: box-shadow 0.2s;
+    max-width: 300px; // Aggiunto un limite alla larghezza massima
+    margin: 0 auto; // Centrato la card
 
     &:hover {
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
@@ -18,16 +20,21 @@
     flex-direction: column;
     flex: 1;
     min-width: 0;
+    max-width: calc(100% - 80px); // Assicura che ci sia spazio per card-right
 }
 
 .image-container {
     height: 130px;
     overflow: hidden;
+    position: relative; // Aggiungo per un migliore controllo dell'immagine
 
     img {
         width: 100%;
         height: 100%;
         object-fit: cover;
+        position: absolute; // Posizionamento assoluto all'interno del container
+        top: 0;
+        left: 0;
     }
 }
 

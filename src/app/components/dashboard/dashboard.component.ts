@@ -15,8 +15,7 @@ import { DashboardControllerService, ElectionDisplayControllerService, VoteContr
     imports: [
         CommonModule,
         CounterCardComponent,
-        PieChartComponent,
-        BarChartComponent
+        PieChartComponent, BarChartComponent
     ],
     template: `
     <div class="dashboard">
@@ -55,21 +54,26 @@ import { DashboardControllerService, ElectionDisplayControllerService, VoteContr
       <div class="chart-col">
          <app-pie-chart
            dataSource="mayors"
-           title="Voti Candidati a Sindaco">
+           title="Distribuzione Voti Sindaco">
          </app-pie-chart>
-      </div>
+        </div></div>
+
+  <div class="chart-row">
       <div class="chart-col">
+                    <app-bar-chart dataSource="councillors" > </app-bar-chart>
+
+      </div>
+    </div>
+
+       <div class="chart-row">
+          <div class="chart-col">
         <app-pie-chart
           dataSource="votes"
-          title="Schede Elettorali">
+          title="Distribuzione Schede Elettorali">
         </app-pie-chart>
-      </div>
-    </div>
-    <div class="chart-row">
-      <div class="chart-col">
-        <app-bar-chart dataSource="dashboard"></app-bar-chart>
-      </div>
-    </div>
+      </div></div>
+  
+  
   </div>
 </div>
   `,

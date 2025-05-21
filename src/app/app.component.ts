@@ -30,7 +30,7 @@ import { MenuSideComponent } from './components/menu-side/menu-side.component';
 })
 export class AppComponent {
     title = 'Elezioni Comunali';
-    isMenuOpen = true;
+    isMenuOpen = false;
 
     onMenuToggle(isOpen: boolean) {
         this.isMenuOpen = isOpen;

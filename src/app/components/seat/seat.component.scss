@@ -2,6 +2,8 @@
     padding: 20px;
     max-width: 100%;
     margin: 0 auto;
+    overflow-x: hidden; // Previene lo scroll orizzontale indesiderato
+    box-sizing: border-box; // Assicura che il padding non causi overflow
 }
 
 .seats-header {
@@ -16,10 +18,66 @@
     }
 }
 
+// Aggiungiamo queste modifiche specifiche per i bottoni in dispositivi mobili
+
 .buttons-container {
     display: flex;
     gap: 15px;
     align-items: center;
+}
+
+@media (max-width: 768px) {
+    .buttons-container {
+        width: 100%;
+        gap: 8px;
+        flex-wrap: wrap;
+        justify-content: space-between; // Distribuisce meglio i bottoni
+    }
+
+    .btn-standard,
+    .btn-logout {
+        flex: 0 1 auto; // Non far crescere i bottoni oltre il necessario
+        min-width: initial; // Rimuove la larghezza minima
+        padding: 8px 10px;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 480px) {
+    .seats-header {
+        margin-bottom: 15px;
+    }
+
+    .buttons-container {
+        gap: 5px; // Riduce ancora lo spazio tra i bottoni
+        margin-top: 10px;
+        width: 100%;
+    }
+
+    .btn-standard,
+    .btn-logout {
+        padding: 6px 8px;
+        font-size: 12px;
+        white-space: nowrap;
+        flex-grow: 0; // Impediamo ai bottoni di crescere
+        width: auto; // Larghezza basata sul contenuto
+    }
+}
+
+@media (max-width: 360px) {
+    .buttons-container {
+        flex-direction: column; // Impila i bottoni verticalmente
+        width: 100%;
+        align-items: stretch; // Estende i bottoni per occupare tutta la larghezza
+    }
+
+    .btn-standard,
+    .btn-logout {
+        margin-bottom: 5px;
+        text-align: center;
+        width: 100%; // Occupa tutta la larghezza disponibile
+        padding: 8px 5px;
+    }
 }
 
 .btn-standard {
@@ -291,6 +349,7 @@
     .buttons-container {
         width: 100%;
         gap: 10px;
+        flex-wrap: wrap; // Permette ai bottoni di andare a capo se necessario
     }
 
     .btn-standard {
@@ -329,9 +388,11 @@
         font-size: 20px;
     }
 
-    .btn-standard {
+    .btn-standard,
+    .btn-logout {
         font-size: 13px;
         padding: 8px 10px;
+        white-space: nowrap; // Evita che il testo vada a capo
     }
 
     .special-vote-box {
@@ -348,6 +409,7 @@
 
         .vote-count {
             font-size: 18px;
+            min-width: 35px;
         }
     }
 
@@ -370,5 +432,66 @@
         width: 30px;
         height: 30px;
         margin-bottom: 15px;
+    }
+}
+
+@media (max-width: 360px) {
+    .seats-container {
+        padding: 8px;
+    }
+
+    .seats-header h1 {
+        font-size: 16px;
+    }
+
+    .btn-standard,
+    .btn-logout {
+        font-size: 11px;
+        padding: 5px 7px;
+    }
+
+    .buttons-container {
+        justify-content: center;
+    }
+
+    .special-votes-section {
+        gap: 10px;
+    }
+
+    .vote-control-panel {
+        gap: 8px;
+
+        .vote-count {
+            font-size: 16px;
+            min-width: 30px;
+        }
+    }
+
+    .vote-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 16px;
+    }
+
+    .parties-grid {
+        grid-template-columns: repeat(1, 1fr); // Su schermi molto piccoli, una colonna
+    }
+
+    .loading-container {
+        padding: 15px;
+    }
+
+    .spinner {
+        width: 25px;
+        height: 25px;
+    }
+
+    .special-vote-box {
+        padding: 10px;
+
+        h3 {
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
     }
 }
