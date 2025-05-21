@@ -122,6 +122,12 @@ export class SeatResultsComponent implements OnInit, OnDestroy {
             next: (data: SectionDto[]) => {
                 this.sections = this.mapSectionDtoToSectionData(data);
                 if (this.sections.length > 0) {
+                    this.sections.sort((a, b) => {
+                        const nameA = a.name ?? '-';
+                        const nameB = b.name ?? '-';
+
+                        return nameA.localeCompare(nameB);
+                    });
                     this.selectedSection = this.sections[0].id;
                     this.onSectionChange(); // Attiva il cambio sezione
                 }
