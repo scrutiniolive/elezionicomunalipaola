@@ -11,6 +11,7 @@
 
 export interface VoteRequest { 
     candidateId?: number;
+    totalVotes?: number;
     deleted?: boolean;
     nullVote?: boolean;
     blankVote?: boolean;

@@ -277,56 +277,13 @@ export class BarChartComponent implements OnInit, OnDestroy, OnChanges {
 
     private loadChartData(): void {
         switch (this.dataSource) {
-            case 'votes':
-                this.dashboardControllerService.globalStats().subscribe(
-                    (voteResponse: VoteResponse) => {
-                        let blankVotes = voteResponse.blanks ?? 0;
-                        let nullVotes = voteResponse.nulls ?? 0;
-                        let totalVotes = voteResponse.totalVotes ?? 0;
-                        let validVotes = totalVotes - nullVotes - blankVotes;
-
-                        this.pieChartData = {
-                            labels: ["Schede Valide", "Schede Bianche", "Schede Nulle"],
-                            datasets: [{
-                                data: [validVotes, blankVotes, nullVotes],
-                                backgroundColor: this.generateColors(3)
-                            }]
-                        };
-
-                        this.hasData = this.pieChartData.datasets.length > 0 &&
-                            this.pieChartData.datasets[0].data.some(value => value > 0);
-                    }
-                );
-                break;
-
-            case 'seat-votes':
-                if (!this.sectionId || this.sectionId < 0)
-                    break;
-
-                this.dashboardControllerService.globalSectionStats(this.sectionId).subscribe(
-                    (voteResponse: VoteResponse) => {
-                        let blankVotes = voteResponse.blanks ?? 0;
-                        let nullVotes = voteResponse.nulls ?? 0;
-                        let totalVotes = voteResponse.totalVotes ?? 0;
-                        let validVotes = totalVotes - nullVotes - blankVotes;
-
-                        this.pieChartData = {
-                            labels: ["Schede Valide", "Schede Bianche", "Schede Nulle"],
-                            datasets: [{
-                                data: [validVotes, blankVotes, nullVotes],
-                                backgroundColor: this.generateColors(3)
-                            }]
-                        };
-
-                        this.hasData = this.pieChartData.datasets.length > 0 &&
-                            this.pieChartData.datasets[0].data.some(value => value > 0);
-                    }
-                );
-                break;
-
             case 'councillors':
-                this.dashboardControllerService.councillorsTotalVotes().subscribe(
-                    (candidates: CandidateDto[]) => {
+                this.dashboardControllerService.councillorsTotalVotes()
+                    .pipe(
+                        map((candidates: CandidateDto[]) => candidates.slice(0, 20))
+                    )
+                    .subscribe((candidates: CandidateDto[]) => {
+
                         // Per i nomi lunghi su schermo piccolo
                         const width = window.innerWidth;
                         const labels = candidates.map(candidate => {
@@ -346,8 +303,8 @@ export class BarChartComponent implements OnInit, OnDestroy, OnChanges {
 
                         this.hasData = this.pieChartData.datasets.length > 0 &&
                             this.pieChartData.datasets[0].data.some(value => value > 0);
-                    }
-                );
+
+                    });
                 break;
 
             case 'seat-councillors':
@@ -355,7 +312,7 @@ export class BarChartComponent implements OnInit, OnDestroy, OnChanges {
                     break;
 
                 this.dashboardControllerService.globalSectionStats(this.sectionId).pipe(
-                    map(data => data.councilors || [])
+                    map(data => data.councilors?.slice(0, 20) || [])
                 ).subscribe(
                     (candidates: CandidateDto[]) => {
                         // Per i nomi lunghi su schermo piccolo

@@ -14,6 +14,6 @@ export interface UserDto {
     username?: string;
     section?: number;
     token?: string;
-    admin?: boolean;
+    isAdmin?: boolean;
 }
 

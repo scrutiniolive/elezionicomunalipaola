@@ -26,6 +26,13 @@ import { DashboardControllerService, ElectionDisplayControllerService, VoteContr
       [icon]="'tower-broadcast'"
       [prefix]="''"
     ></app-counter-card>
+
+      <app-counter-card
+      [title]="'Seggi Attivi'"
+      [value]="numSection"
+      [icon]="'person-booth'"
+      [prefix]="''"
+    ></app-counter-card>
     
     <app-counter-card
       [title]="'Votanti'"
@@ -41,12 +48,7 @@ import { DashboardControllerService, ElectionDisplayControllerService, VoteContr
       [prefix]="''"
     ></app-counter-card>
     
-    <app-counter-card
-      [title]="'Seggi Attivi'"
-      [value]="numSection"
-      [icon]="'person-booth'"
-      [prefix]="''"
-    ></app-counter-card>
+  
   </div>
   
   <div class="chart-container">
