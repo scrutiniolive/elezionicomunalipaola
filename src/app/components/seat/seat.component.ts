@@ -9,11 +9,12 @@ import { AuthService } from '../../services/auth.service';
 import { PartyColumnComponent } from '../party-column/party-column.component';
 import { finalize } from 'rxjs/operators';
 import { DashboardControllerService, ElectionDisplayControllerService, SectionControllerService } from '../../api';
+import { FormsModule } from '@angular/forms';
 
 @Component({
     selector: 'app-seat',
     standalone: true,
-    imports: [CommonModule, PartyColumnComponent],
+    imports: [CommonModule, PartyColumnComponent, FormsModule],
     templateUrl: './seat.component.html',
     styleUrls: ['./seat.component.scss']
 })
@@ -26,6 +27,9 @@ export class SeatComponent implements OnInit {
     sectionName = ''
     sectionId = -1;
     ballotOpen = false;
+
+    tempNullVotes = 0;
+    tempBlankVotes = 0;
 
 
 
@@ -73,6 +77,8 @@ export class SeatComponent implements OnInit {
             next: (data) => {
                 this.nullVotes = data.nulls ?? 0;
                 this.blankVotes = data.blanks ?? 0;
+                this.tempBlankVotes = this.blankVotes;
+                this.tempNullVotes = this.nullVotes;
             },
             error: (err) => {
                 switch (err.status) {
@@ -114,94 +120,33 @@ export class SeatComponent implements OnInit {
         this.router.navigate(['/seats/login']);
     }
 
-    // Gestione dell'incremento del contatore
-    onIncrementCounter(candidateId: number): void {
-        const voteRequest: VoteRequest = { candidateId: candidateId, deleted: false, blankVote: false, nullVote: false };
-        /**TODO this.partyListCardModels.forEach(party => {
-            const candidate = party.candidateModels?.find(c => c.id === candidateId);
-            if (candidate) {
-                this.voteControllerService.insertVote(voteRequest)
-                    .subscribe({
-                        next: (data) => {
-                            candidate.counter = (candidate.counter || 0) + 1;
-                        },
-                        error: (err) => {
-                            switch (err.status) {
-                                case 401:
-                                case 403:
-                                    this.authService.logout();
-                                    this.router.navigate(['/seats/login']);
-                                    break;
-                                default:
-                                    this.error = 'Voto non caricato: ' + (err.error?.message || err.message);
-                            }
-                        }
-                    });
-            }
-        });*/
+
+    onEnterPressedOnBlank(inputElement: HTMLInputElement) {
+        inputElement.blur();
     }
 
-    // Gestione del decremento del contatore
-    onDecrementCounter(candidateId: number): void {
-        const voteRequest: VoteRequest = { candidateId: candidateId, deleted: false, blankVote: false, nullVote: false };
-        /**TODO this.partyListCardModels.forEach(party => {
-            const candidate = party.candidateModels?.find(c => c.id === candidateId);
-            if (candidate && (candidate.counter || 0) > 0) {
-                this.voteControllerService.insertVote(voteRequest)
-                    .subscribe({
-                        next: (data) => {
-                            candidate.counter = (candidate.counter || 0) - 1;
-                        },
-                        error: (err) => {
-                            switch (err.status) {
-                                case 401:
-                                case 403:
-                                    this.authService.logout();
-                                    this.router.navigate(['/seats/login']);
-                                    break;
-                                default:
-                                    this.error = 'Voto non caricato: ' + (err.error?.message || err.message);
-                            }
-                        }
-                    });
-            }
-        });*/
+    onEscapePressedOnBlank(inputElement: HTMLInputElement) {
+        this.tempBlankVotes = this.blankVotes ?? 0;
+        inputElement.blur();
     }
 
-    // Gestione del decremento del contatore
-    onSetCounter(candidateId: number, value: number): void {
-        const voteRequest: VoteRequest = { candidateId: candidateId, deleted: false, blankVote: false, nullVote: false };
-        this.partyListCardModels.forEach(party => {
-            const candidate = party.candidateModels?.find(c => c.id === candidateId);
-            if (candidate && value && value >= 0) {
-                /**TODOthis.voteControllerService.insertVote(voteRequest)
-                   .subscribe({
-                       next: (data) => {
-                           candidate.counter = (candidate.counter || 0) - 1;
-                       },
-                       error: (err) => {
-                           switch (err.status) {
-                               case 401:
-                               case 403:
-                                   this.authService.logout();
-                                   this.router.navigate(['/seats/login']);
-                                   break;
-                               default:
-                                   this.error = 'Voto non caricato: ' + (err.error?.message || err.message);
-                           }
-                       }
-                   });*/
-            }
-        });
+    onEnterPressedOnNull(inputElement: HTMLInputElement) {
+        inputElement.blur();
+    }
+
+    onEscapePressedOnNull(inputElement: HTMLInputElement) {
+        this.tempNullVotes = this.nullVotes ?? 0;
+        inputElement.blur();
     }
 
 
-    onNullVotesClick(): void {
+    incrementNullVotesClick(): void {
         const voteRequest: VoteRequest = { deleted: false, blankVote: false, nullVote: true };
-        /**TODO this.voteControllerService.insertVote(voteRequest)
+        this.voteControllerService.insertSingleVote(voteRequest)
             .subscribe({
                 next: (data) => {
-                    this.nullVotes++;
+                    this.nullVotes = data.totalVotes ?? 0;
+                    this.tempNullVotes = data.totalVotes ?? 0;
                     console.log(`Voti nulli incrementati: ${this.nullVotes}`);
                 },
                 error: (err) => {
@@ -215,18 +160,19 @@ export class SeatComponent implements OnInit {
                             this.error = 'Voto non caricato: ' + (err.error?.message || err.message);
                     }
                 }
-            });*/
+            });
     }
 
 
 
 
-    onBlankVotesClick(): void {
+    incrementBlankVotesClick(): void {
         const voteRequest: VoteRequest = { deleted: false, blankVote: true, nullVote: false };
-        /**TODO this.voteControllerService.insertVote(voteRequest)
+        this.voteControllerService.insertSingleVote(voteRequest)
             .subscribe({
                 next: (data) => {
-                    this.blankVotes++;
+                    this.blankVotes = data.totalVotes ?? 0;
+                    this.tempBlankVotes = data.totalVotes ?? 0;
                     console.log(`Voti nulli incrementati: ${this.nullVotes}`);
                 },
                 error: (err) => {
@@ -240,56 +186,54 @@ export class SeatComponent implements OnInit {
                             this.error = 'Voto non caricato: ' + (err.error?.message || err.message);
                     }
                 }
-            });*/
+            });
     }
 
-    // Opzionale: metodi per decrementare i voti speciali
     decrementNullVotes(): void {
         const voteRequest: VoteRequest = { deleted: true, blankVote: false, nullVote: true };
-        /**TODO    this.voteControllerService.insertVote(voteRequest)
-               .subscribe({
-                   next: (data) => {
-                       this.nullVotes--;
-                       console.log(`Voti nulli incrementati: ${this.nullVotes}`);
-                   },
-                   error: (err) => {
-                       switch (err.status) {
-                           case 401:
-                           case 403:
-                               this.authService.logout();
-                               this.router.navigate(['/seats/login']);
-                               break;
-                           default:
-                               this.error = 'Voto non caricato: ' + (err.error?.message || err.message);
-                       }
-                   }
-               });*/
+        this.voteControllerService.insertSingleVote(voteRequest)
+            .subscribe({
+                next: (data) => {
+                    this.nullVotes = data.totalVotes ?? 0;
+                    this.tempNullVotes = data.totalVotes ?? 0;
+                },
+                error: (err) => {
+                    switch (err.status) {
+                        case 401:
+                        case 403:
+                            this.authService.logout();
+                            this.router.navigate(['/seats/login']);
+                            break;
+                        default:
+                            this.error = 'Voto non caricato: ' + (err.error?.message || err.message);
+                    }
+                }
+            });
     }
 
     decrementBlankVotes(): void {
         const voteRequest: VoteRequest = { deleted: true, blankVote: true, nullVote: false };
-        /**TODO    this.voteControllerService.insertVote(voteRequest)
-               .subscribe({
-                   next: (data) => {
-                       this.blankVotes--;
-                       console.log(`Voti nulli incrementati: ${this.nullVotes}`);
-                   },
-                   error: (err) => {
-                       switch (err.status) {
-                           case 401:
-                           case 403:
-                               this.authService.logout();
-                               this.router.navigate(['/seats/login']);
-                               break;
-                           default:
-                               this.error = 'Voto non caricato: ' + (err.error?.message || err.message);
-                       }
-                   }
-               });*/
+        this.voteControllerService.insertSingleVote(voteRequest)
+            .subscribe({
+                next: (data) => {
+                    this.nullVotes = data.totalVotes ?? 0;
+                    this.tempNullVotes = data.totalVotes ?? 0;
+                },
+                error: (err) => {
+                    switch (err.status) {
+                        case 401:
+                        case 403:
+                            this.authService.logout();
+                            this.router.navigate(['/seats/login']);
+                            break;
+                        default:
+                            this.error = 'Voto non caricato: ' + (err.error?.message || err.message);
+                    }
+                }
+            });
     }
 
     toggleBallot() {
-
         this.sectionControllerService.updateBallot({ id: this.sectionId, ballotOpen: !this.ballotOpen })
             .subscribe({
                 next: (data) => {
@@ -307,5 +251,61 @@ export class SeatComponent implements OnInit {
                     }
                 }
             });
+    }
+
+    onSetCounterOnBlank(): void {
+
+        if (!this.tempBlankVotes || isNaN(this.tempBlankVotes) || this.tempBlankVotes < 0 || this.tempBlankVotes === this.blankVotes) {
+            this.tempBlankVotes = this.blankVotes ?? 0;
+            return;
+        }
+        const voteRequest: VoteRequest = { deleted: false, blankVote: true, nullVote: false, totalVotes: Math.floor(this.tempBlankVotes) };
+        this.voteControllerService.insertMultipleVote(voteRequest)
+            .subscribe({
+                next: (data) => {
+                    this.blankVotes = data.totalVotes ?? 0;
+                    this.tempBlankVotes = data.totalVotes ?? 0;
+                },
+                error: (err) => {
+                    switch (err.status) {
+                        case 401:
+                        case 403:
+                            this.authService.logout();
+                            this.router.navigate(['/seats/login']);
+                            break;
+                        default:
+                            console.log(err.err)
+                    }
+                }
+            });
+
+    }
+
+    onSetCounterOnNull(): void {
+
+        if (!this.tempNullVotes || isNaN(this.tempNullVotes) || this.tempNullVotes < 0 || this.tempNullVotes === this.nullVotes) {
+            this.tempNullVotes = this.nullVotes ?? 0;
+            return;
+        }
+        const voteRequest: VoteRequest = { deleted: false, blankVote: false, nullVote: true, totalVotes: Math.floor(this.tempNullVotes) };
+        this.voteControllerService.insertMultipleVote(voteRequest)
+            .subscribe({
+                next: (data) => {
+                    this.nullVotes = data.totalVotes ?? 0;
+                    this.tempNullVotes = data.totalVotes ?? 0;
+                },
+                error: (err) => {
+                    switch (err.status) {
+                        case 401:
+                        case 403:
+                            this.authService.logout();
+                            this.router.navigate(['/seats/login']);
+                            break;
+                        default:
+                            console.log(err.err)
+                    }
+                }
+            });
+
     }
 }

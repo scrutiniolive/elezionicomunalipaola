@@ -216,6 +216,28 @@
         font-weight: 700;
         min-width: 40px;
         text-align: center;
+
+        /* Stili per rimuovere l'aspetto del form input */
+        border: none;
+        background: transparent;
+        -moz-appearance: textfield;
+        /* Firefox */
+
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        &:focus {
+            outline: none;
+        }
+
+        &:disabled {
+            color: inherit;
+            /* Mantiene il colore del testo anche quando disabilitato */
+            opacity: 1;
+        }
     }
 }
 
@@ -287,6 +309,8 @@
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 20px;
     width: 100%;
+    margin-top: 30px;
+    /* Aggiungi questa riga */
 }
 
 @media (min-width: 1201px) {

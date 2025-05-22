@@ -21,43 +21,40 @@
     </div>
 
     <div *ngIf="!loading && !error">
-
-
         <div class="special-votes-section">
-
             <div class="special-votes-container">
                 <div class="special-vote-box null-vote-box">
                     <h3>Voti Nulli</h3>
                     <div class="vote-control-panel">
                         <button class="vote-btn vote-btn-plus" [disabled]="!ballotOpen"
-                            (click)="onNullVotesClick()">+</button>
-                        <span class="vote-count">{{ nullVotes }}</span>
+                            (click)="incrementNullVotesClick()">+</button>
+                        <input #counterInputNull type="number" [(ngModel)]="tempNullVotes" [disabled]="!ballotOpen"
+                            (keydown.escape)="onEscapePressedOnNull(counterInputNull)"
+                            (keydown.enter)="onEnterPressedOnNull(counterInputNull)" (blur)="onSetCounterOnNull()"
+                            min="0" class="vote-count">
                         <button class="vote-btn vote-btn-minus" [disabled]="!ballotOpen || nullVotes === 0"
                             (click)="decrementNullVotes()">-</button>
                     </div>
                 </div>
-
                 <div class="special-vote-box blank-vote-box">
                     <h3>Voti Bianchi</h3>
                     <div class="vote-control-panel">
                         <button class="vote-btn vote-btn-plus" [disabled]="!ballotOpen"
-                            (click)="onBlankVotesClick()">+</button>
-                        <span class="vote-count">{{ blankVotes }}</span>
+                            (click)="incrementBlankVotesClick()">+</button>
+                        <input #counterInputBlank type="number" [(ngModel)]="tempBlankVotes" [disabled]="!ballotOpen"
+                            (keydown.escape)="onEscapePressedOnBlank(counterInputBlank)"
+                            (keydown.enter)="onEnterPressedOnBlank(counterInputBlank)" (blur)="onSetCounterOnBlank()"
+                            min="0" class="vote-count">
                         <button class="vote-btn vote-btn-minus" [disabled]="!ballotOpen || blankVotes === 0"
                             (click)="decrementBlankVotes()">-</button>
                     </div>
                 </div>
             </div>
+        </div>
 
-
-
-
-
-            <div class="parties-grid">
-                <app-party-column *ngFor="let partyListCardModel of partyListCardModels"
-                    [partyListCardModel]="partyListCardModel" [ballotOpen]="ballotOpen"
-                    (incrementCounter)="onIncrementCounter($event)"
-                    (decrementCounter)="onDecrementCounter($event)"></app-party-column>
-            </div>
+        <div class="parties-grid">
+            <app-party-column *ngFor="let partyListCardModel of partyListCardModels"
+                [partyListCardModel]="partyListCardModel" [ballotOpen]="ballotOpen"></app-party-column>
         </div>
     </div>
+</div>

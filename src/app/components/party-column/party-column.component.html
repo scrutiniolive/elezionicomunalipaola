@@ -9,7 +9,6 @@
 
     <div class="cards-stack">
         <app-person-card-seat *ngFor="let candidateModel of partyListCardModel.candidateModels"
-            [ballotOpen]="ballotOpen" [candidateCardModel]="candidateModel" (increment)="onIncrementCounter($event)"
-            (decrement)="onDecrementCounter($event)"></app-person-card-seat>
+            [ballotOpen]="ballotOpen" [candidateCardModel]="candidateModel"></app-person-card-seat>
     </div>
 </div>
