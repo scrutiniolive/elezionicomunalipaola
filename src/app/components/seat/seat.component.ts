@@ -54,6 +54,7 @@ export class SeatComponent implements OnInit {
             error: (err) => {
                 switch (err.status) {
                     case 401:
+                    case 403:
                         this.authService.logout();
                         this.router.navigate(['/seats/login']);
                         break;
@@ -76,6 +77,7 @@ export class SeatComponent implements OnInit {
             error: (err) => {
                 switch (err.status) {
                     case 401:
+                    case 403:
                         this.authService.logout();
                         this.router.navigate(['/seats/login']);
                         break;
@@ -96,6 +98,7 @@ export class SeatComponent implements OnInit {
                 error: (err) => {
                     switch (err.status) {
                         case 401:
+                        case 403:
                             this.authService.logout();
                             this.router.navigate(['/seats/login']);
                             break;
@@ -125,6 +128,7 @@ export class SeatComponent implements OnInit {
                         error: (err) => {
                             switch (err.status) {
                                 case 401:
+                                case 403:
                                     this.authService.logout();
                                     this.router.navigate(['/seats/login']);
                                     break;
@@ -151,6 +155,7 @@ export class SeatComponent implements OnInit {
                         error: (err) => {
                             switch (err.status) {
                                 case 401:
+                                case 403:
                                     this.authService.logout();
                                     this.router.navigate(['/seats/login']);
                                     break;
@@ -177,6 +182,7 @@ export class SeatComponent implements OnInit {
                         error: (err) => {
                             switch (err.status) {
                                 case 401:
+                                case 403:
                                     this.authService.logout();
                                     this.router.navigate(['/seats/login']);
                                     break;
@@ -201,6 +207,7 @@ export class SeatComponent implements OnInit {
                 error: (err) => {
                     switch (err.status) {
                         case 401:
+                        case 403:
                             this.authService.logout();
                             this.router.navigate(['/seats/login']);
                             break;
@@ -225,6 +232,7 @@ export class SeatComponent implements OnInit {
                 error: (err) => {
                     switch (err.status) {
                         case 401:
+                        case 403:
                             this.authService.logout();
                             this.router.navigate(['/seats/login']);
                             break;
@@ -247,6 +255,7 @@ export class SeatComponent implements OnInit {
                 error: (err) => {
                     switch (err.status) {
                         case 401:
+                        case 403:
                             this.authService.logout();
                             this.router.navigate(['/seats/login']);
                             break;
@@ -268,6 +277,7 @@ export class SeatComponent implements OnInit {
                 error: (err) => {
                     switch (err.status) {
                         case 401:
+                        case 403:
                             this.authService.logout();
                             this.router.navigate(['/seats/login']);
                             break;
@@ -288,6 +298,7 @@ export class SeatComponent implements OnInit {
                 error: (err) => {
                     switch (err.status) {
                         case 401:
+                        case 403:
                             this.authService.logout();
                             this.router.navigate(['/seats/login']);
                             break;

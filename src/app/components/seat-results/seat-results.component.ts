@@ -99,7 +99,6 @@ interface SectionData {
 })
 export class SeatResultsComponent implements OnInit, OnDestroy {
     liveState: string = '-';
-    numSection: string = '-';
     party: string = '-';
     votes: string = '-';
     sections: SectionData[] = [];
@@ -114,7 +113,7 @@ export class SeatResultsComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.loadSections();
-        this.setupAutoRefresh();
+
     }
 
     private loadSections(): void {
@@ -151,7 +150,7 @@ export class SeatResultsComponent implements OnInit, OnDestroy {
                     this.selectedSectionData = {
                         id: data.sectionId,
                         name: data.sectionName || '',
-                        state: data.sectionClosed ? 'Aperto' : 'Chiuso',
+                        state: data.ballotOpen ? 'Aperto' : 'Chiuso',
                         votes: ((data.totalVotes ?? 0) - (data.blanks ?? 0) - (data.nulls ?? 0)).toString()
                     } as SectionData;
                 },
@@ -162,24 +161,9 @@ export class SeatResultsComponent implements OnInit, OnDestroy {
         }
     }
 
-    private loadAllData(): void {
-        this.dashboardControllerService.globalStats()
-            .subscribe({
-                next: (data) => {
-                    this.liveState = data.countingInProgress ? 'In Diretta' : "Terminato",
-                        this.numSection = data.sectionClosed ? (17 - data.sectionClosed).toString() + ' di 17' : '-',
-                        this.party = data.leadPartyList ? data.leadPartyList : '-',
-                        this.votes = "-"
-                },
-                error: (err) => console.error('Errore nel caricamento dei dati:', err)
-            });
-    }
 
-    private setupAutoRefresh(): void {
-        this.updateSubscription = interval(300000).subscribe(() => {
-            this.loadAllData();
-        });
-    }
+
+
 
     ngOnDestroy() {
         if (this.updateSubscription) {
