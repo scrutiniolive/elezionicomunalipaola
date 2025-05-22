@@ -36,7 +36,7 @@ interface SectionData {
             <select [(ngModel)]="selectedSection" (change)="onSectionChange()">
               <option value="">Tutte le sezioni</option>
               <option *ngFor="let section of sections" [value]="section.id">
-                {{section.name}}
+                  S{{section.id}}-{{section.name}}
               </option>
             </select>
           </div>
@@ -122,10 +122,9 @@ export class SeatResultsComponent implements OnInit, OnDestroy {
                 this.sections = this.mapSectionDtoToSectionData(data);
                 if (this.sections.length > 0) {
                     this.sections.sort((a, b) => {
-                        const nameA = a.name ?? '-';
-                        const nameB = b.name ?? '-';
-
-                        return nameA.localeCompare(nameB);
+                        const idA = a.id ?? 0;
+                        const idB = b.id ?? 0;
+                        return idA - idB;;
                     });
                     this.selectedSection = this.sections[0].id;
                     this.onSectionChange(); // Attiva il cambio sezione

@@ -1,8 +1,8 @@
 // app.routes.ts
 import { Routes } from '@angular/router';
-import { SeatComponent } from './components/seat/seat.component';
 import { LoginComponent } from './components/login/login.component';
 import { authGuard } from './guards/auth.guard';
+import { SectionCounterComponent } from './components/section-counter/section-counter.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -12,7 +12,7 @@ export const routes: Routes = [
         children: [
             {
                 path: '',
-                component: SeatComponent,
+                component: SectionCounterComponent,
                 canActivate: [authGuard]
             },
             {

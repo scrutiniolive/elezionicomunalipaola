@@ -1,15 +1,30 @@
 <div class="person-card">
     <div class="image-container">
-        <img *ngIf="imagesLoaded" [src]="imageUrl"
+        <img *ngIf="imagesLoaded && isCandidate" [src]="imageUrl"
             [alt]="candidateCardModel.lastName + ' ' + candidateCardModel.firstName">
-        <!-- Opzionale: mostra un placeholder durante il caricamento -->
         <div *ngIf="!imagesLoaded" class="loading-placeholder">Loading...</div>
     </div>
     <div class="content-container">
-        <div *ngIf="showCounter" class="counter">{{ candidateCardModel.counter }}</div>
+        <div *ngIf="showCounter" class="counter">
+            <span *ngIf="!isEditable">{{ candidateCardModel.counter }}</span>
+            <input *ngIf="isEditable" #counterInput type="number" [(ngModel)]="tempCounter"
+                (keydown.escape)="isCandidate ? onEscapePressed(counterInput):onEscapePressedOnBlankOrNull(counterInput)"
+                (keydown.enter)="isCandidate ?onEnterPressed(counterInput):onEnterPressedOnBlankOrNull(counterInput)"
+                (blur)="isCandidate? onCounterChange(): onCounterChangeBlankOrNull()" class="counter-input" min="0"
+                [disabled]="!ballotOpen">
+
+        </div>
         <div class="info">
             <h3 class="last-name">{{ candidateCardModel.lastName }}</h3>
             <p class="first-name">{{ candidateCardModel.firstName }}</p>
+            <div *ngIf="showCounter && isEditable" class="actions">
+                <button class="btn-counter increment"
+                    (click)="isCandidate ? incrementVotes() : incrementeEitherNullOrBlank()"
+                    [disabled]="!ballotOpen">+</button>
+                <button class="btn-counter decrement"
+                    (click)="isCandidate ? decrementVotes() : decrementEitherNullOrBlank()"
+                    [disabled]="!ballotOpen">-</button>
+            </div>
         </div>
     </div>
 </div>

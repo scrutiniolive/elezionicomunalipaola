@@ -1,0 +1,94 @@
+<div class="seats-container">
+    <div class="seats-header">
+        <h1>{{this.sectionName}}</h1>
+        <div class="buttons-container">
+
+            <button class="btn-standard" [ngClass]="{'btn-open': !ballotOpen, 'btn-close': ballotOpen}"
+                (click)="toggleBallot()">
+                {{ ballotOpen ? 'Chiudi Seggio' : 'Apri Seggio' }}
+            </button>
+            <button class="btn-standard btn-logout" (click)="logout()">Logout</button>
+        </div>
+    </div>
+
+    <div *ngIf="loading" class="loading-container">
+        <div class="spinner"></div>
+        <p>Caricamento in corso...</p>
+    </div>
+
+    <div *ngIf="error" class="error-message">
+        {{ error }}
+    </div>
+
+    <div *ngIf="!loading && !error">
+
+        <div class="card-container">
+            <div class="selector-card">
+                <div class="icon">
+                    <i class="fa-solid fa-person-booth"></i>
+                </div>
+                <div class="content">
+                    <h3>Seleziona Sezione</h3>
+                    <select [(ngModel)]="sectionId" (change)="changeSection()">
+                        <option *ngFor="let section of sections" [value]="section.id">
+                            S{{section.id}}-{{section.name}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="selector-card">
+                <div class="icon">
+                    <i class="fa-solid fa-landmark"></i>
+                </div>
+                <div class="content">
+                    <h3>Seleziona Partito</h3>
+                    <select [(ngModel)]="partyId" (change)="changePartyId()">
+                        <option *ngFor="let party of parties" [value]="party.id">
+                            {{party.name}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+        <div class="seats-container">
+            <div *ngIf="!loading && !error">
+                <div *ngIf="parties.length === 0 " class="no-data">
+                    <p>Nessun dato disponibile</p>
+                </div>
+
+                <app-party-container *ngFor="let party of partiesMayors" [partyListCardModel]="party"
+                    [showCounter]="true" [isEditable]="true" [ballotOpen]="ballotOpen"></app-party-container>
+
+            </div>
+        </div>
+
+        <div class="seats-container">
+            <div *ngIf="!loading && !error">
+                <div *ngIf="parties.length === 0 " class="no-data">
+                    <p>Nessun dato disponibile</p>
+                </div>
+
+                <app-party-container *ngFor="let party of filteredParties$ | async" [partyListCardModel]="party"
+                    [showCounter]="true" [isEditable]="true" [ballotOpen]="ballotOpen"></app-party-container>
+
+            </div>
+        </div>
+    </div>
+    <div class="seats-container">
+        <div *ngIf="!loading && !error">
+            <div *ngIf="parties.length === 0 " class="no-data">
+                <p>Nessun dato disponibile</p>
+            </div>
+
+            <app-party-container *ngFor="let nullBlankVote of nullBlankVotes" [partyListCardModel]="nullBlankVote"
+                [showCounter]="true" [isEditable]="true" [ballotOpen]="ballotOpen"
+                [isCandidate]="false"></app-party-container>
+
+        </div>
+    </div>
+</div>

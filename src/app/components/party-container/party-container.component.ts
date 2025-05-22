@@ -18,6 +18,9 @@ import { PartyListCardModel } from '../../api';
           *ngFor="let person_card of partyListCardModel.candidateModels" 
           [candidateCardModel]="person_card"
           [showCounter]="showCounter"
+          [isEditable]="isEditable"
+          [ballotOpen]="ballotOpen"
+          [isCandidate]="isCandidate"
         ></app-person-card>
       </div>
     </div>
@@ -60,6 +63,10 @@ import { PartyListCardModel } from '../../api';
 export class PartyContainerComponent {
     @Input() partyListCardModel!: PartyListCardModel;
     @Input() showCounter!: boolean;
+    @Input() isEditable!: boolean;
+    @Input() ballotOpen!: boolean;
+    @Input() isCandidate = true;
+
 
     constructor(private seatService: SeatService) { }
 

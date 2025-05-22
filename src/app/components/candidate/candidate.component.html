@@ -3,7 +3,7 @@
         <div *ngIf="parties.length === 0" class="no-data">
             <p>Nessun dato disponibile</p>
         </div>
-        <app-party-container *ngFor="let party of parties" [partyListCardModel]="party"
-            [showCounter]="true"></app-party-container>
+        <app-party-container *ngFor="let party of parties" [partyListCardModel]="party" [showCounter]="true"
+            [isEditable]="false"></app-party-container>
     </div>
 </div>

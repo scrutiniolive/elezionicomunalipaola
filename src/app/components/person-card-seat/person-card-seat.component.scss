@@ -7,7 +7,7 @@
     justify-content: space-between;
     height: 100%;
     transition: box-shadow 0.2s;
-    max-width: 300px; // Aggiunto un limite alla larghezza massima
+    max-width: 300px; // Limite alla larghezza massima
     margin: 0 auto; // Centrato la card
 
     &:hover {
@@ -20,19 +20,19 @@
     flex-direction: column;
     flex: 1;
     min-width: 0;
-    max-width: calc(100% - 80px); // Assicura che ci sia spazio per card-right
+    max-width: calc(100% - 80px); // Spazio per card-right
 }
 
 .image-container {
     height: 130px;
     overflow: hidden;
-    position: relative; // Aggiungo per un migliore controllo dell'immagine
+    position: relative;
 
     img {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        position: absolute; // Posizionamento assoluto all'interno del container
+        position: absolute;
         top: 0;
         left: 0;
     }
@@ -222,32 +222,6 @@
 
     .counter input {
         font-size: 18px;
-
-        &[type="number"]:not(:placeholder-shown) {
-            &[value^="1"] {
-                font-size: 2px;
-            }
-
-            &[value^="10"] {
-                font-size: 2px;
-            }
-
-            &[value^="100"] {
-                font-size: 2px;
-            }
-
-            &[value^="1000"] {
-                font-size: 2px;
-            }
-
-            &[value^="10000"] {
-                font-size: 2px;
-            }
-
-            &[value^="100000"] {
-                font-size: 2px;
-            }
-        }
     }
 
     .btn {
@@ -265,40 +239,14 @@
         min-width: 50px;
         max-width: 75px;
     }
-
-    .counter input {
-        font-size: 16px;
-
-        &[type="number"]:not(:placeholder-shown) {
-            &[value^="1"] {
-                font-size: 16px;
-            }
-
-            &[value^="10"] {
-                font-size: 15px;
-            }
-
-            &[value^="100"] {
-                font-size: 14px;
-            }
-
-            &[value^="1000"] {
-                font-size: 13px;
-            }
-
-            &[value^="10000"] {
-                font-size: 12px;
-            }
-
-            &[value^="100000"] {
-                font-size: 11px;
-            }
-        }
-    }
 }
 
 // Small screens
 @media (max-width: 768px) {
+    .person-card {
+        max-width: 250px; // Ridotto per adattarsi meglio a schermi più piccoli
+    }
+
     .image-container {
         height: 110px;
     }
@@ -314,32 +262,6 @@
 
         input {
             font-size: 14px;
-
-            &[type="number"]:not(:placeholder-shown) {
-                &[value^="1"] {
-                    font-size: 14px;
-                }
-
-                &[value^="10"] {
-                    font-size: 13px;
-                }
-
-                &[value^="100"] {
-                    font-size: 12px;
-                }
-
-                &[value^="1000"] {
-                    font-size: 11px;
-                }
-
-                &[value^="10000"] {
-                    font-size: 10px;
-                }
-
-                &[value^="100000"] {
-                    font-size: 9px;
-                }
-            }
         }
     }
 
@@ -357,10 +279,11 @@
 @media (max-width: 480px) {
     .person-card {
         border-radius: 6px;
+        max-width: 100%; // Consente alla carta di adattarsi completamente alla larghezza disponibile
     }
 
     .image-container {
-        height: 100px;
+        height: 90px; // Ridotta l'altezza per una migliore visualizzazione
     }
 
     .info {
@@ -377,46 +300,64 @@
 
     .card-right {
         min-width: 40px;
-        max-width: 65px;
-        padding: 5px;
+        max-width: 60px; // Ridotta la larghezza massima
+        padding: 5px 3px; // Ridotto padding orizzontale
     }
 
     .counter {
         padding: 2px 0;
-
-        input {
-            font-size: 13px;
-
-            &[type="number"]:not(:placeholder-shown) {
-                &[value^="1"] {
-                    font-size: 13px;
-                }
-
-                &[value^="10"] {
-                    font-size: 12px;
-                }
-
-                &[value^="100"] {
-                    font-size: 11px;
-                }
-
-                &[value^="1000"] {
-                    font-size: 10px;
-                }
-
-                &[value^="10000"] {
-                    font-size: 9px;
-                }
-
-                &[value^="100000"] {
-                    font-size: 8px;
-                }
-            }
-        }
     }
 
     .btn {
         height: 20px;
         font-size: 12px;
+        padding: 0; // Rimuovi il padding interno per risparmiare spazio
+    }
+}
+
+// Very small screens
+@media (max-width: 360px) {
+    .person-card {
+        display: flex; // Assicurarsi che sia flex anche su schermi molto piccoli
+    }
+
+    .card-left {
+        max-width: calc(100% - 50px); // Ridotto ulteriormente per dare più spazio al contenuto
+    }
+
+    .image-container {
+        height: 80px; // Ridotta ulteriormente l'altezza immagine
+    }
+
+    .info {
+        padding: 4px; // Ridotto ulteriormente il padding
+    }
+
+    .last-name {
+        font-size: 11px;
+    }
+
+    .first-name {
+        font-size: 9px;
+        margin-top: 1px; // Ridotto il margine superiore
+    }
+
+    .card-right {
+        min-width: 35px;
+        max-width: 50px; // Ridotto ulteriormente
+        padding: 3px 2px;
+    }
+
+    .counter input {
+        font-size: 12px; // Base più piccola
+    }
+
+    .buttons {
+        gap: 2px; // Ridotto spazio tra i pulsanti
+    }
+
+    .btn {
+        height: 18px; // Pulsanti più compatti
+        font-size: 11px;
     }
 }

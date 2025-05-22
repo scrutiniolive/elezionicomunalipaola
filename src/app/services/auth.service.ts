@@ -37,6 +37,21 @@ export class AuthService {
             );
     }
 
+    switchSection(sectionId: number): Observable<any> {
+        return this.authControllerService.changeSection(sectionId)
+            .pipe(
+                tap(response => {
+                    if (response && response.token) {
+                        // Salva il token nel localStorage
+                        localStorage.setItem('auth_token', response.token);
+                        localStorage.setItem('userSectionId', response.section ? response.section.toString() : '')
+                        // Aggiorna lo stato di autenticazione
+                        this.isAuthenticatedSubject.next(true);
+                    }
+                })
+            );
+    }
+
     logout(): void {
         // Rimuovi il token
         localStorage.removeItem('auth_token');

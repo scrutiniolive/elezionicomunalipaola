@@ -320,7 +320,72 @@
     }
 }
 
-/* Aggiungiamo stili specifici per assicurarsi che i grafici si adattino correttamente */
+/* Aggiunto breakpoint per schermi molto piccoli */
+@media (max-width: 360px) {
+    .dashboard {
+        padding: 8px;
+
+        h1 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .card-container {
+            gap: 8px;
+            margin-bottom: 12px;
+
+            &>* {
+                height: 80px; // Ridotta altezza delle card
+            }
+        }
+
+        .chart-container {
+            .chart-row {
+                gap: 10px;
+                margin-bottom: 10px;
+
+                .chart-col {
+                    padding: 10px;
+                    min-height: 220px; // Altezza minima ridotta per schermi molto piccoli
+                }
+            }
+        }
+
+        .selector-card,
+        :host .counter-card {
+            padding: 10px;
+
+            .icon {
+                width: 32px;
+                height: 32px;
+                font-size: 16px;
+                margin-right: 6px;
+            }
+
+            .content {
+                h3 {
+                    font-size: 11px;
+                    margin-bottom: 3px;
+                    white-space: nowrap; // Previene l'a capo nei titoli
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                .value {
+                    font-size: 16px;
+                }
+
+                select {
+                    font-size: 11px;
+                    padding: 4px;
+                    height: 26px; // Altezza fissa per il select
+                }
+            }
+        }
+    }
+}
+
+/* Stili per i grafici responsive */
 ::ng-deep .chart-col app-pie-chart,
 ::ng-deep .chart-col app-bar-chart {
     display: block;
@@ -347,5 +412,25 @@
         flex-wrap: wrap;
         justify-content: center;
         font-size: 12px;
+    }
+}
+
+/* Ottimizzazione aggiuntiva per schermi molto piccoli */
+@media (max-width: 360px) {
+    ::ng-deep .chart-col .chart-legends {
+        font-size: 10px;
+        line-height: 1.2;
+        padding: 8px 4px;
+    }
+
+    ::ng-deep .chart-col .chart-legend-color {
+        width: 10px;
+        height: 10px;
+        margin-right: 3px;
+    }
+
+    ::ng-deep .chart-col .chart-legend-item {
+        margin-right: 5px;
+        margin-bottom: 3px;
     }
 }

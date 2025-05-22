@@ -19,6 +19,7 @@ export class PersonCardSeatComponent {
     @Input() candidateCardModel!: CandidateCardModel;
     @Input() ballotOpen: boolean = false;
 
+
     imageUrl?: string;
     imagesLoaded = false;
     tempCounter: number = 0;
@@ -125,5 +126,7 @@ export class PersonCardSeatComponent {
             });
 
     }
+
+
 
 }

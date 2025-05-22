@@ -29,6 +29,12 @@ Chart.register(...registerables);
                     </div>
                 </ng-template>
             </div>
+            <div *ngIf="hasData && showLegendBelow" class="chart-legend-below">
+                <div *ngFor="let label of pieChartData.labels; let i = index" class="legend-item">
+                    <span class="color-box" [style.background-color]="getColorForIndex(i)"></span>
+                    <span class="label-text">{{label}}</span>
+                </div>
+            </div>
         </div>
     `,
     styles: [`
@@ -43,6 +49,10 @@ Chart.register(...registerables);
                 margin-bottom: 15px;
                 color: #2c3e50;
                 font-size: 16px;
+                text-align: left; /* Centra il titolo */
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
         }
         
@@ -51,6 +61,9 @@ Chart.register(...registerables);
             position: relative;
             min-height: 0;
             max-height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         .no-data-message {
@@ -67,6 +80,36 @@ Chart.register(...registerables);
             }
         }
         
+        /* Nuovi stili per la legenda sotto il grafico */
+        .chart-legend-below {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            padding: 8px 0;
+            margin-top: 10px;
+            
+            .legend-item {
+                display: flex;
+                align-items: center;
+                margin-right: 10px;
+                margin-bottom: 5px;
+                
+                .color-box {
+                    display: inline-block;
+                    width: 12px;
+                    height: 12px;
+                    border-radius: 2px;
+                    margin-right: 5px;
+                }
+                
+                .label-text {
+                    font-size: 12px;
+                    color: #2c3e50;
+                }
+            }
+        }
+        
         @media (max-width: 768px) {
             .chart-container h3 {
                 font-size: 15px;
@@ -75,6 +118,12 @@ Chart.register(...registerables);
             
             .no-data-message p {
                 font-size: 1em;
+            }
+            
+            .chart-legend-below {
+                .legend-item .label-text {
+                    font-size: 11px;
+                }
             }
         }
         
@@ -91,6 +140,49 @@ Chart.register(...registerables);
                     font-size: 0.9em;
                 }
             }
+            
+            .chart-legend-below {
+                gap: 4px;
+                
+                .legend-item {
+                    margin-right: 6px;
+                    
+                    .color-box {
+                        width: 10px;
+                        height: 10px;
+                        margin-right: 3px;
+                    }
+                    
+                    .label-text {
+                        font-size: 10px;
+                    }
+                }
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .chart-container h3 {
+                font-size: 13px;
+                margin-bottom: 6px;
+            }
+            
+            .chart-legend-below {
+                gap: 3px;
+                
+                .legend-item {
+                    margin-right: 4px;
+                    
+                    .color-box {
+                        width: 8px;
+                        height: 8px;
+                        margin-right: 2px;
+                    }
+                    
+                    .label-text {
+                        font-size: 9px;
+                    }
+                }
+            }
         }
   `]
 })
@@ -100,10 +192,19 @@ export class PieChartComponent implements OnInit, OnDestroy, OnChanges {
     @Input() customData?: any;
     @Input() sectionId?: number;
 
-    constructor(private dataService: DataService, private dashboardControllerService: DashboardControllerService) { }
-
+    public showLegendBelow = false;
     public hasData: boolean = false;
     private updateSubscription: Subscription | undefined;
+    private colors: string[] = [
+        '#FF6384',
+        '#36A2EB',
+        '#FFCE56',
+        '#4BC0C0',
+        '#9966FF',
+        '#FF9F40'
+    ];
+
+    constructor(private dataService: DataService, private dashboardControllerService: DashboardControllerService) { }
 
     ngOnInit(): void {
         // Inizializza le opzioni del grafico in base alla dimensione dello schermo
@@ -132,6 +233,11 @@ export class PieChartComponent implements OnInit, OnDestroy, OnChanges {
     @HostListener('window:resize')
     onResize() {
         this.setupChartOptions();
+    }
+
+    // Nuovo metodo per recuperare il colore in base all'indice per la legenda personalizzata
+    getColorForIndex(index: number): string {
+        return this.colors[index % this.colors.length];
     }
 
     public pieChartData: ChartConfiguration<'pie'>['data'] = {
@@ -172,22 +278,54 @@ export class PieChartComponent implements OnInit, OnDestroy, OnChanges {
 
     private setupChartOptions() {
         const width = window.innerWidth;
+        this.showLegendBelow = width <= 400; // Per schermi molto stretti, mostriamo la legenda sotto
 
-        if (width <= 400) {
-            // Per schermi molto stretti (circa 400px)
+        // Per schermi molto stretti (<= 360px), massimizza il grafico e usa legenda personalizzata
+        if (width <= 360) {
             this.pieChartOptions = {
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
                     legend: {
-                        position: 'bottom',
-                        labels: {
-                            boxWidth: 8,
-                            padding: 5,
-                            font: {
-                                size: 10
+                        display: false // Nascondiamo la legenda integrata di Chart.js
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                const dataset = context.dataset;
+                                const total = dataset.data.reduce((acc, data) => acc + data, 0);
+                                const value = dataset.data[context.dataIndex];
+                                const percentage = ((value / total) * 100).toFixed(1);
+                                return `${value} (${percentage}%)`;
                             }
-                        }
+                        },
+                        bodyFont: {
+                            size: 9
+                        },
+                        titleFont: {
+                            size: 9
+                        },
+                        padding: 3,
+                        boxWidth: 6
+                    }
+                },
+                layout: {
+                    padding: {
+                        top: 5,
+                        bottom: 5,
+                        left: 5,
+                        right: 5
+                    }
+                }
+            };
+        }
+        else if (width <= 400) {
+            this.pieChartOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false // Nascondiamo la legenda integrata di Chart.js
                     },
                     tooltip: {
                         callbacks: {
@@ -203,6 +341,14 @@ export class PieChartComponent implements OnInit, OnDestroy, OnChanges {
                             size: 10
                         },
                         padding: 4
+                    }
+                },
+                layout: {
+                    padding: {
+                        top: 5,
+                        bottom: 10,
+                        left: 5,
+                        right: 5
                     }
                 }
             };
@@ -241,6 +387,7 @@ export class PieChartComponent implements OnInit, OnDestroy, OnChanges {
             };
         } else {
             // Per desktop
+            this.showLegendBelow = false; // Su desktop, usiamo la legenda standard di Chart.js
             this.pieChartOptions = {
                 responsive: true,
                 maintainAspectRatio: false,
@@ -327,11 +474,14 @@ export class PieChartComponent implements OnInit, OnDestroy, OnChanges {
             case 'mayors':
                 this.dashboardControllerService.mayorsTotalVotes().subscribe(
                     (candidates: CandidateDto[]) => {
-                        // Per i nomi lunghi su schermo piccolo
+                        // Per i nomi lung su schermo piccolo
                         const width = window.innerWidth;
                         const labels = candidates.map(candidate => {
-                            if (width <= 400 && candidate.name && candidate.name.length > 10) {
-                                return candidate.name.substring(0, 8) + '...';
+                            if (width <= 480 && candidate.name && candidate.name.length > 8) {
+                                return candidate.name.substring(0, 6) + '..';
+                            }
+                            if (width <= 768 && candidate.name && candidate.name.length > 12) {
+                                return candidate.name.substring(0, 10) + '..';
                             }
                             return candidate.name;
                         });
@@ -361,8 +511,11 @@ export class PieChartComponent implements OnInit, OnDestroy, OnChanges {
                         // Per i nomi lunghi su schermo piccolo
                         const width = window.innerWidth;
                         const labels = candidates.map(candidate => {
-                            if (width <= 400 && candidate.name && candidate.name.length > 10) {
-                                return candidate.name.substring(0, 8) + '...';
+                            if (width <= 480 && candidate.name && candidate.name.length > 8) {
+                                return candidate.name.substring(0, 6) + '..';
+                            }
+                            if (width <= 768 && candidate.name && candidate.name.length > 12) {
+                                return candidate.name.substring(0, 10) + '..';
                             }
                             return candidate.name;
                         });
@@ -391,14 +544,6 @@ export class PieChartComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     private generateColors(count: number): string[] {
-        const colors = [
-            '#FF6384',
-            '#36A2EB',
-            '#FFCE56',
-            '#4BC0C0',
-            '#9966FF',
-            '#FF9F40'
-        ];
-        return Array(count).fill(0).map((_, i) => colors[i % colors.length]);
+        return Array(count).fill(0).map((_, i) => this.colors[i % this.colors.length]);
     }
 }
