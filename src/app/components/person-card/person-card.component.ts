@@ -31,8 +31,7 @@ export class PersonCardComponent {
     imageUrl?: string;
     imagesLoaded = false;
     tempCounter = 0;
-    tempNullVotes = 0;
-    tempBlankVotes = 0;
+
 
     ngOnInit() {
         this.tempCounter = this.candidateCardModel.counter ?? 0;
@@ -83,6 +82,12 @@ export class PersonCardComponent {
     }
 
     decrementVotes(): void {
+
+        if (this.tempCounter == 0) {
+            return
+        }
+
+
         const voteRequest: VoteRequest = { candidateId: this.candidateCardModel.id, deleted: true, blankVote: false, nullVote: false };
         this.voteControllerService.insertSingleVote(voteRequest)
             .subscribe({
@@ -113,6 +118,8 @@ export class PersonCardComponent {
             this.tempCounter = this.candidateCardModel.counter ?? 0;
             return;
         }
+
+
         const voteRequest: VoteRequest = { candidateId: this.candidateCardModel.id, deleted: false, blankVote: false, nullVote: false, totalVotes: Math.floor(this.tempCounter) };
         this.voteControllerService.insertMultipleVote(voteRequest)
             .subscribe({
@@ -151,11 +158,7 @@ export class PersonCardComponent {
     }
 
     onEscapePressedOnBlankOrNull(inputElement: HTMLInputElement) {
-        if (this.candidateCardModel.id == -1) {
-            this.tempNullVotes = this.candidateCardModel.counter ?? 0;
-        } else {
-            this.tempBlankVotes = this.candidateCardModel.counter ?? 0;
-        }
+        this.tempCounter = this.candidateCardModel.counter ?? 0;
         inputElement.blur();
     }
 
@@ -164,16 +167,16 @@ export class PersonCardComponent {
 
     onCounterChangeBlankOrNull() {
         if (this.candidateCardModel.id == -1) {
-            if (!this.tempNullVotes || isNaN(this.tempNullVotes) || this.tempNullVotes < 0 || this.tempNullVotes === this.candidateCardModel.counter) {
-                this.tempNullVotes = this.candidateCardModel.counter ?? 0;
+            if (!this.tempCounter || isNaN(this.tempCounter) || this.tempCounter < 0 || this.tempCounter === this.candidateCardModel.counter) {
+                this.tempCounter = this.candidateCardModel.counter ?? 0;
                 return;
             }
-            const voteRequest: VoteRequest = { deleted: false, blankVote: false, nullVote: true, totalVotes: Math.floor(this.tempNullVotes) };
+            const voteRequest: VoteRequest = { deleted: false, blankVote: false, nullVote: true, totalVotes: Math.floor(this.tempCounter) };
             this.voteControllerService.insertMultipleVote(voteRequest)
                 .subscribe({
                     next: (data) => {
                         this.candidateCardModel.counter = data.totalVotes ?? 0;
-                        this.tempNullVotes = data.totalVotes ?? 0;
+                        this.tempCounter = data.totalVotes ?? 0;
                     },
                     error: (err) => {
                         switch (err.status) {
@@ -188,16 +191,16 @@ export class PersonCardComponent {
                     }
                 })
         } else {
-            if (!this.tempBlankVotes || isNaN(this.tempBlankVotes) || this.tempBlankVotes < 0 || this.tempBlankVotes === this.candidateCardModel.counter) {
-                this.tempBlankVotes = this.candidateCardModel.counter ?? 0;
+            if (!this.tempCounter || isNaN(this.tempCounter) || this.tempCounter < 0 || this.tempCounter === this.candidateCardModel.counter) {
+                this.tempCounter = this.candidateCardModel.counter ?? 0;
                 return;
             }
-            const voteRequest: VoteRequest = { deleted: false, blankVote: true, nullVote: false, totalVotes: Math.floor(this.tempBlankVotes) };
+            const voteRequest: VoteRequest = { deleted: false, blankVote: true, nullVote: false, totalVotes: Math.floor(this.tempCounter) };
             this.voteControllerService.insertMultipleVote(voteRequest)
                 .subscribe({
                     next: (data) => {
                         this.candidateCardModel.counter = data.totalVotes ?? 0;
-                        this.tempBlankVotes = data.totalVotes ?? 0;
+                        this.tempCounter = data.totalVotes ?? 0;
                     },
                     error: (err) => {
                         switch (err.status) {
@@ -214,13 +217,17 @@ export class PersonCardComponent {
         }
     }
     decrementEitherNullOrBlank() {
+        if (this.tempCounter == 0) {
+            return
+        }
+
         if (this.candidateCardModel.id == -1) {
             const voteRequest: VoteRequest = { deleted: true, blankVote: false, nullVote: true };
             this.voteControllerService.insertSingleVote(voteRequest)
                 .subscribe({
                     next: (data) => {
                         this.candidateCardModel.counter = data.totalVotes ?? 0;
-                        this.tempNullVotes = data.totalVotes ?? 0;
+                        this.tempCounter = data.totalVotes ?? 0;
                     },
                     error: (err) => {
                         switch (err.status) {
@@ -240,7 +247,7 @@ export class PersonCardComponent {
                 .subscribe({
                     next: (data) => {
                         this.candidateCardModel.counter = data.totalVotes ?? 0;
-                        this.tempNullVotes = data.totalVotes ?? 0;
+                        this.tempCounter = data.totalVotes ?? 0;
                     },
                     error: (err) => {
                         switch (err.status) {
@@ -263,7 +270,7 @@ export class PersonCardComponent {
                 .subscribe({
                     next: (data) => {
                         this.candidateCardModel.counter = data.totalVotes ?? 0;
-                        this.tempNullVotes = data.totalVotes ?? 0;
+                        this.tempCounter = data.totalVotes ?? 0;
                         console.log(`Voti nulli incrementati: ${this.candidateCardModel.counter}`);
                     },
                     error: (err) => {
@@ -284,7 +291,7 @@ export class PersonCardComponent {
                 .subscribe({
                     next: (data) => {
                         this.candidateCardModel.counter = data.totalVotes ?? 0;
-                        this.tempBlankVotes = data.totalVotes ?? 0;
+                        this.tempCounter = data.totalVotes ?? 0;
                         console.log(`Voti nulli incrementati: ${this.candidateCardModel.counter}`);
                     },
                     error: (err) => {
