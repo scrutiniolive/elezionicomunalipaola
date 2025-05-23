@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { PartyListCardModel } from '../../api/model/partyListCardModel';
 import { CardControllerService } from '../../api/api/cardController.service';
 import { PartyContainerComponent } from '../party-container/party-container.component';
-import { CandidateCardModel, DashboardControllerService, ElectionDisplayControllerService, SectionControllerService, SectionDto, VoteResponse } from '../../api';
+import { CandidateCardModel, DashboardControllerService, ElectionDisplayControllerService, SectionControllerService, SectionDto, VoteControllerService, VoteResponse } from '../../api';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { FormsModule } from '@angular/forms';
@@ -69,7 +69,7 @@ export class SectionCounterComponent {
 
 
     constructor(
-        private cardControllerService: CardControllerService, private sectionControllerService: SectionControllerService, private electionDisplayControllerService: ElectionDisplayControllerService, private authService: AuthService, private router: Router, private dashboardControllerService: DashboardControllerService
+        private cardControllerService: CardControllerService, private sectionControllerService: SectionControllerService, private electionDisplayControllerService: ElectionDisplayControllerService, private authService: AuthService, private router: Router, private dashboardControllerService: DashboardControllerService, private voteCotrollerService: VoteControllerService
     ) { }
 
     ngOnInit(): void {
@@ -158,7 +158,7 @@ export class SectionCounterComponent {
     }
 
     loadNullBlankVotes() {
-        this.dashboardControllerService.globalSectionStats(this.sectionId).subscribe(
+        this.voteCotrollerService.globalSectionStats(this.sectionId).subscribe(
             (voteResponse: VoteResponse) => {
                 this.blankVotes = voteResponse.blanks ?? 0;
                 this.nullVotes = voteResponse.nulls ?? 0;

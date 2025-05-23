@@ -209,7 +209,7 @@ export class BarChartComponent implements OnInit, OnDestroy, OnChanges {
             this.pieChartData = this.customData;
         } else {
             this.loadChartData();
-            this.updateSubscription = interval(300000).subscribe(() => {
+            this.updateSubscription = interval(121 * 1000).subscribe(() => {
                 this.loadChartData();
             });
         }
@@ -404,7 +404,7 @@ export class BarChartComponent implements OnInit, OnDestroy, OnChanges {
                 if (!this.sectionId || this.sectionId < 0)
                     break;
 
-                this.dashboardControllerService.globalSectionStats(this.sectionId).pipe(
+                this.dashboardControllerService.globalSectionStats1(this.sectionId).pipe(
                     map(data => data.councilors?.slice(0, 20) || [])
                 ).subscribe(
                     (candidates: CandidateDto[]) => {

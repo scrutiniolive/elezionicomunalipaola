@@ -99,12 +99,12 @@ export class DashboardControllerService extends BaseService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public globalSectionStats(sectionId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json' | '*/*', context?: HttpContext, transferCache?: boolean}): Observable<VoteResponse>;
-    public globalSectionStats(sectionId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json' | '*/*', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<VoteResponse>>;
-    public globalSectionStats(sectionId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json' | '*/*', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<VoteResponse>>;
-    public globalSectionStats(sectionId: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json' | '*/*', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public globalSectionStats1(sectionId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json' | '*/*', context?: HttpContext, transferCache?: boolean}): Observable<VoteResponse>;
+    public globalSectionStats1(sectionId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json' | '*/*', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<VoteResponse>>;
+    public globalSectionStats1(sectionId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json' | '*/*', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<VoteResponse>>;
+    public globalSectionStats1(sectionId: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json' | '*/*', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (sectionId === null || sectionId === undefined) {
-            throw new Error('Required parameter sectionId was null or undefined when calling globalSectionStats.');
+            throw new Error('Required parameter sectionId was null or undefined when calling globalSectionStats1.');
         }
 
         let localVarHeaders = this.defaultHeaders;

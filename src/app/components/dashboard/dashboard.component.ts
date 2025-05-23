@@ -112,7 +112,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     private setupAutoRefresh(): void {
-        this.updateSubscription = interval(300000).subscribe(() => {
+        this.updateSubscription = interval(121 * 1000).subscribe(() => {
             this.loadAllData();
         });
     }

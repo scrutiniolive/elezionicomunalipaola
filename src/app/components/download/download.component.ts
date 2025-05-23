@@ -32,7 +32,7 @@ export class DownloadComponent implements OnInit, OnDestroy {
         );
 
         // Avvio del countdown
-        this.countdownSubscription = interval(1000).subscribe(() => {
+        this.countdownSubscription = interval(121 * 1000).subscribe(() => {
             this.updateCountdown();
         });
 

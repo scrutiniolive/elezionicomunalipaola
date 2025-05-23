@@ -209,7 +209,7 @@ export class PieChartComponent implements OnInit, OnDestroy, OnChanges {
             this.pieChartData = this.customData;
         } else {
             this.loadChartData();
-            this.updateSubscription = interval(300000).subscribe(() => {
+            this.updateSubscription = interval(121 * 1000).subscribe(() => {
                 this.loadChartData();
             });
         }
@@ -396,7 +396,7 @@ export class PieChartComponent implements OnInit, OnDestroy, OnChanges {
                 if (!this.sectionId || this.sectionId < 0)
                     break;
 
-                this.dashboardControllerService.globalSectionStats(this.sectionId).subscribe(
+                this.dashboardControllerService.globalSectionStats1(this.sectionId).subscribe(
                     (voteResponse: VoteResponse) => {
                         let blankVotes = voteResponse.blanks ?? 0;
                         let nullVotes = voteResponse.nulls ?? 0;
@@ -450,7 +450,7 @@ export class PieChartComponent implements OnInit, OnDestroy, OnChanges {
                 if (!this.sectionId || this.sectionId < 0)
                     break;
 
-                this.dashboardControllerService.globalSectionStats(this.sectionId).pipe(
+                this.dashboardControllerService.globalSectionStats1(this.sectionId).pipe(
                     map(data => data.mayors || [])
                 ).subscribe(
                     (candidates: CandidateDto[]) => {

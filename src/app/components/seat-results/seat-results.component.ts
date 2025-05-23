@@ -144,7 +144,7 @@ export class SeatResultsComponent implements OnInit, OnDestroy {
     }
     onSectionChange(): void {
         if (this.selectedSection) {
-            this.dashboardControllerService.globalSectionStats(this.selectedSection).subscribe({
+            this.dashboardControllerService.globalSectionStats1(this.selectedSection).subscribe({
                 next: (data) => {
                     this.selectedSectionData = {
                         id: data.sectionId,
