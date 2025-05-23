@@ -27,6 +27,9 @@
             </ul>
             <ul class="bottom-menu">
                 <li><a routerLink="/seats" routerLinkActive="active">Area Personale</a></li>
+                <li *ngIf="isAuthenticated$ | async">
+                    <a routerLink="/download" routerLinkActive="active">Scarica Excel</a>
+                </li>
             </ul>
         </div>
 

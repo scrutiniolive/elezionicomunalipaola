@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { Observable } from 'rxjs';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
     selector: 'app-menu-side',
@@ -12,6 +14,13 @@ import { RouterModule } from '@angular/router';
 export class MenuSideComponent {
     isMenuOpen: boolean = false;
     @Output() menuToggled = new EventEmitter<boolean>();
+    isAuthenticated$: Observable<boolean>;
+
+
+
+    constructor(private authService: AuthService) {
+        this.isAuthenticated$ = this.authService.isAuthenticated$;
+    }
 
     toggleMenu() {
         this.isMenuOpen = !this.isMenuOpen;
@@ -22,4 +31,8 @@ export class MenuSideComponent {
         this.isMenuOpen = false;
         this.menuToggled.emit(false);
     }
+
+
+
+
 }
