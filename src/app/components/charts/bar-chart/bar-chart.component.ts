@@ -43,6 +43,7 @@ Chart.register(...registerables);
                 margin-bottom: 15px;
                 color: #2c3e50;
                 font-size: 16px;
+                 text-align:center;
             }
         }
         

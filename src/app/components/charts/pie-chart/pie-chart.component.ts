@@ -43,6 +43,7 @@ Chart.register(...registerables);
                 margin-bottom: 15px;
                 color: #2c3e50;
                 font-size: 16px;
+                text-align:center;
             }
         }
         
@@ -169,24 +170,14 @@ Chart.register(...registerables);
 })
 export class PieChartComponent implements OnInit, OnDestroy, OnChanges {
     @Input() dataSource: string = 'default';
-    @Input() title: string = 'Distribuzione Dati';
+    @Input() title: string = 'Distribuzione Voti Consiglieri';
     @Input() customData?: any;
     @Input() sectionId?: number;
 
-    public showLegendBelow = false;
-    public hasData: boolean = false;
-    private updateSubscription: Subscription | undefined;
-    private colors: string[] = [
-        '#FF6384',
-        '#36A2EB',
-        '#FFCE56',
-        '#4BC0C0',
-        '#9966FF',
-        '#FF9F40'
-    ];
-
     constructor(private dataService: DataService, private dashboardControllerService: DashboardControllerService) { }
 
+    public hasData: boolean = false;
+    private updateSubscription: Subscription | undefined;
 
     // Aggiungi/modifica nel tuo BarChartComponent
     @HostListener('window:resize')
@@ -236,11 +227,6 @@ export class PieChartComponent implements OnInit, OnDestroy, OnChanges {
 
 
 
-    // Nuovo metodo per recuperare il colore in base all'indice per la legenda personalizzata
-    getColorForIndex(index: number): string {
-        return this.colors[index % this.colors.length];
-    }
-
     public pieChartData: ChartConfiguration<'pie'>['data'] = {
         labels: [],
         datasets: [{
@@ -279,54 +265,22 @@ export class PieChartComponent implements OnInit, OnDestroy, OnChanges {
 
     private setupChartOptions() {
         const width = window.innerWidth;
-        this.showLegendBelow = width <= 400; // Per schermi molto stretti, mostriamo la legenda sotto
 
-        // Per schermi molto stretti (<= 360px), massimizza il grafico e usa legenda personalizzata
-        if (width <= 360) {
+        if (width <= 400) {
+            // Per schermi molto stretti (circa 400px)
             this.pieChartOptions = {
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
                     legend: {
-                        display: false // Nascondiamo la legenda integrata di Chart.js
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function (context) {
-                                const dataset = context.dataset;
-                                const total = dataset.data.reduce((acc, data) => acc + data, 0);
-                                const value = dataset.data[context.dataIndex];
-                                const percentage = ((value / total) * 100).toFixed(1);
-                                return `${value} (${percentage}%)`;
+                        position: 'bottom',
+                        labels: {
+                            boxWidth: 8,
+                            padding: 5,
+                            font: {
+                                size: 10
                             }
-                        },
-                        bodyFont: {
-                            size: 9
-                        },
-                        titleFont: {
-                            size: 9
-                        },
-                        padding: 3,
-                        boxWidth: 6
-                    }
-                },
-                layout: {
-                    padding: {
-                        top: 5,
-                        bottom: 5,
-                        left: 5,
-                        right: 5
-                    }
-                }
-            };
-        }
-        else if (width <= 400) {
-            this.pieChartOptions = {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false // Nascondiamo la legenda integrata di Chart.js
+                        }
                     },
                     tooltip: {
                         callbacks: {
@@ -342,14 +296,6 @@ export class PieChartComponent implements OnInit, OnDestroy, OnChanges {
                             size: 10
                         },
                         padding: 4
-                    }
-                },
-                layout: {
-                    padding: {
-                        top: 5,
-                        bottom: 10,
-                        left: 5,
-                        right: 5
                     }
                 }
             };
@@ -388,7 +334,6 @@ export class PieChartComponent implements OnInit, OnDestroy, OnChanges {
             };
         } else {
             // Per desktop
-            this.showLegendBelow = false; // Su desktop, usiamo la legenda standard di Chart.js
             this.pieChartOptions = {
                 responsive: true,
                 maintainAspectRatio: false,
@@ -544,7 +489,57 @@ export class PieChartComponent implements OnInit, OnDestroy, OnChanges {
         }
     }
 
+
     private generateColors(count: number): string[] {
-        return Array(count).fill(0).map((_, i) => this.colors[i % this.colors.length]);
+        const gradientColors = [
+            // Sfumature di Rosa (#FF6384)
+            '#FF1F54', // Rosa più scuro
+
+
+            // Sfumature di Blu (#36A2EB)
+            '#1A7BC2', // Blu più scuro
+
+
+            // Sfumature di Giallo (#FFCE56)
+            '#FFB726', // Giallo più scuro
+
+
+            // Sfumature di Turchese (#4BC0C0)
+            '#329A9A', // Turchese più scuro
+
+
+            // Sfumature di Viola (#9966FF)
+            '#7733FF', // Viola più scuro
+
+
+            // Sfumature di Arancione (#FF9F40)
+            '#FF8307', // Arancione più scuro
+            '#FF9124',
+            '#FF9F40', // Arancione originale
+            '#FFAD5C',
+            '#FFBB78',  // Arancione più chiaro
+
+            '#FF4169',
+            '#FF6384', // Rosa originale
+            '#FF859F',
+            '#FFA7BA', // Rosa più chiaro
+            '#2890D6',
+            '#36A2EB', // Blu originale
+            '#54B4F0',
+            '#72C6F5', // Blu più chiaro
+            '#FFC23E',
+            '#FFCE56', // Giallo originale
+            '#FFDA6E',
+            '#FFE686', // Giallo più chiaro
+            '#3FADAD',
+            '#4BC0C0', // Turchese originale
+            '#67CDCD',
+            '#83DADA', // Turchese più chiaro
+            '#884DFF',
+            '#9966FF', // Viola originale
+            '#AA80FF',
+            '#BB99FF', // Viola più chiaro
+        ];
+        return Array(count).fill(0).map((_, i) => gradientColors[i % gradientColors.length]);
     }
 }
