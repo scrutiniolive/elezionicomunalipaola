@@ -24,23 +24,32 @@
                 <li><a routerLink="/candidates" routerLinkActive="active">Scrutinio Candidati</a></li>
                 <li><a routerLink="/seat-results" routerLinkActive="active">Scrutinio Seggi</a></li>
                 <li><a routerLink="/candidate-results" routerLinkActive="active">Previsione Consiglio Comunale</a></li>
+                <li> <a routerLink="/download" routerLinkActive="active">Scarica Risultati</a></li>
             </ul>
             <ul class="bottom-menu">
                 <li><a routerLink="/seats" routerLinkActive="active">Area Personale</a></li>
-                <li *ngIf="isAuthenticated$ | async">
-                    <a routerLink="/download" routerLinkActive="active">Scarica Excel</a>
-                </li>
             </ul>
         </div>
 
         <div class="footer">
-            <p class="credits">Realizzato da<br>Luca Pastore, Paolo Sciammarella e Armando Santoro</p>
+            <p class="credits">Realizzato da<br>Luca Pastore, Paolo F. Sciammarella e Armando Santoro</p>
             <p class="copyright">© 2025 Elezioni Comunali Paola - ScrutinioLive<br>Tutti i diritti riservati</p>
             <p class="legal">Protetto da: L. 633/1941<br>D.Lgs. 30/2005</p>
             <p class="disclaimer">I dati mostrati sono da ritenersi indicativi e potrebbero differire da quelli
                 ufficiali.
                 Il codice sorgente e il concept di questa applicazione sono protetti
                 dalle leggi sul copyright e sulla proprietà intellettuale (L. 633/1941, D.Lgs. 30/2005).</p>
+            <div class="social-icons">
+                <a href="https://www.facebook.com/profile.php?id=61576148416339" target="_blank">
+                    <i class="fab fa-facebook"></i>
+                </a>
+                <a href="https://www.instagram.com/scrutiniolive?igsh=MTIxazZndDN4bW9kcg==" target="_blank">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://www.youtube.com/@ScrutinioLive" target="_blank">
+                    <i class="fab fa-youtube"></i>
+                </a>
+            </div>
         </div>
     </nav>
 </div>

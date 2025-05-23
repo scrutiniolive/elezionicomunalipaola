@@ -331,3 +331,57 @@
         }
     }
 }
+
+.social-icons {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.social-icons a {
+    margin: 0 20px;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.social-icons i {
+    color: #ffffff;
+    font-size: 32px;
+    /* ridotta la dimensione */
+    transition: all 0.3s ease;
+}
+
+/* Hover effect più evidente */
+.social-icons i:hover {
+    color: #007bff;
+    /* colore più vivace all'hover */
+    transform: scale(1.2);
+    /* ingrandimento all'hover */
+    text-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+    /* alone luminoso */
+}
+
+/* Stesse proprietà per tutte le icone */
+.social-icons .fa-facebook,
+.social-icons .fa-instagram,
+.social-icons .fa-youtube {
+    color: #ffffff;
+    transition: all 0.3s ease;
+}
+
+.social-icons .fa-facebook:hover {
+    color: #007bff;
+    transform: scale(1.2);
+    text-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+}
+
+.social-icons .fa-instagram:hover {
+    color: #cc30de;
+    transform: scale(1.2);
+    text-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+}
+
+.social-icons .fa-youtube:hover {
+    color: #ff0026;
+    transform: scale(1.2);
+    text-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+}

@@ -1,37 +1,60 @@
-import { Component } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { VoteControllerService } from "../../api";
+import { AuthService } from "../../services/auth.service";
+import { Subscription, interval } from "rxjs";
+import { CommonModule } from "@angular/common";
 
 @Component({
     selector: 'app-download',
-    template: `
-    <div class="download-container">
-      <button (click)="downloadExcel()" class="download-button">
-        Scarica Report Excel
-      </button>
-    </div>
-  `,
-    styles: [`
-    .download-container {
-      padding: 20px;
-      text-align: center;
-    }
-    .download-button {
-      padding: 10px 20px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    .download-button:hover {
-      background-color: #45a049;
-    }
-  `]
+    templateUrl: './download.component.html',
+    styleUrls: ['./download.component.scss'],
+    standalone: true,
+    imports: [CommonModule]
 })
-export class DownloadComponent {
-    constructor(private voteControllerService: VoteControllerService) { }
+export class DownloadComponent implements OnInit, OnDestroy {
+    isAuthenticated = false;
+    countdownDisplay = '';
+    private endDate = new Date('May 28, 2025 00:00:00').getTime();
+    private countdownSubscription!: Subscription;
+    private authSubscription!: Subscription;
+
+    constructor(
+        private voteControllerService: VoteControllerService,
+        private authService: AuthService
+    ) { }
+
+    ngOnInit() {
+        // Sottoscrizione allo stato di autenticazione
+        this.authSubscription = this.authService.isAuthenticated$.subscribe(
+            isAuth => {
+                this.isAuthenticated = isAuth;
+            }
+        );
+
+        // Avvio del countdown
+        this.countdownSubscription = interval(1000).subscribe(() => {
+            this.updateCountdown();
+        });
+
+        // Inizializza il contatore subito
+        this.updateCountdown();
+    }
+
+    ngOnDestroy() {
+        // Pulisci le sottoscrizioni quando il componente viene distrutto
+        if (this.countdownSubscription) {
+            this.countdownSubscription.unsubscribe();
+        }
+        if (this.authSubscription) {
+            this.authSubscription.unsubscribe();
+        }
+    }
 
     downloadExcel() {
+        if (!this.isAuthenticated) {
+            return;
+        }
+
         this.voteControllerService.exportToExcel()
             .subscribe({
                 next: (response) => {
@@ -63,5 +86,23 @@ export class DownloadComponent {
                     // Gestisci l'errore (mostra un messaggio all'utente)
                 }
             });
+    }
+
+    private updateCountdown() {
+        const now = new Date().getTime();
+        const distance = this.endDate - now;
+
+        if (distance < 0) {
+            this.countdownDisplay = "Scaduto";
+            return;
+        }
+
+        // Calcola giorni, ore, minuti e secondi
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        this.countdownDisplay = `${days}g ${hours}h ${minutes}m ${seconds}s`;
     }
 }
