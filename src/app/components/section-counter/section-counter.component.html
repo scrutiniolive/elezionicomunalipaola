@@ -23,7 +23,7 @@
     <div *ngIf="!loading && !error">
 
         <div class="card-container">
-            <div class="selector-card">
+            <div *ngIf="isAdminAuthenticated" class="selector-card">
                 <div class="icon">
                     <i class="fa-solid fa-person-booth"></i>
                 </div>

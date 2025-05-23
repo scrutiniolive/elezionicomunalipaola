@@ -7,7 +7,7 @@ import { CandidateCardModel, DashboardControllerService, ElectionDisplayControll
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { FormsModule } from '@angular/forms';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 
 interface SectionData {
@@ -64,6 +64,9 @@ export class SectionCounterComponent {
     nullVotes = 0;
     blankVotes = 0;
 
+    isAdminAuthenticated = false;
+    private authSubscription!: Subscription;
+
 
     constructor(
         private cardControllerService: CardControllerService, private sectionControllerService: SectionControllerService, private electionDisplayControllerService: ElectionDisplayControllerService, private authService: AuthService, private router: Router, private dashboardControllerService: DashboardControllerService
@@ -71,6 +74,11 @@ export class SectionCounterComponent {
 
     ngOnInit(): void {
         this.loadSections();
+        this.authSubscription = this.authService.isAdminAuthenticated$.subscribe(
+            isAdmin => {
+                this.isAdminAuthenticated = isAdmin;
+            }
+        );
     }
 
     private loadSections(): void {

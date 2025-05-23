@@ -13,9 +13,13 @@ export class AuthService {
     private isAuthenticatedSubject = new BehaviorSubject<boolean>(this.hasToken());
     public isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
 
+    private isAdminAuthenticatedSubject = new BehaviorSubject<boolean>(this.hasToken());
+    public isAdminAuthenticated$ = this.isAdminAuthenticatedSubject.asObservable();
+
     constructor(private authControllerService: AuthenticationControllerService) {
         // Verifica se esiste già un token al caricamento del servizio
         this.isAuthenticatedSubject.next(this.hasToken());
+        this.isAdminAuthenticatedSubject.next(this.isAdmin());
     }
 
     login(username: string, password: string): Observable<any> {
@@ -30,8 +34,11 @@ export class AuthService {
                     if (response && response.token) {
                         // Salva il token nel localStorage
                         localStorage.setItem('auth_token', response.token);
+                        localStorage.setItem('userSectionId', response.section ? response.section.toString() : '')
+                        localStorage.setItem('isAdmin', response.isAdmin ? 'true' : 'false')
                         // Aggiorna lo stato di autenticazione
                         this.isAuthenticatedSubject.next(true);
+                        this.isAdminAuthenticatedSubject.next(true);
                     }
                 })
             );
@@ -45,8 +52,10 @@ export class AuthService {
                         // Salva il token nel localStorage
                         localStorage.setItem('auth_token', response.token);
                         localStorage.setItem('userSectionId', response.section ? response.section.toString() : '')
+                        localStorage.setItem('isAdmin', response.isAdmin ? 'true' : 'false')
                         // Aggiorna lo stato di autenticazione
                         this.isAuthenticatedSubject.next(true);
+                        this.isAdminAuthenticatedSubject.next(true);
                     }
                 })
             );
@@ -55,6 +64,8 @@ export class AuthService {
     logout(): void {
         // Rimuovi il token
         localStorage.removeItem('auth_token');
+        localStorage.removeItem('userSectionId');
+        localStorage.removeItem('isAdmin');
         // Aggiorna lo stato di autenticazione
         this.isAuthenticatedSubject.next(false);
     }
@@ -66,6 +77,11 @@ export class AuthService {
     hasToken(): boolean {
         return !!this.getToken();
     }
+
+    isAdmin(): boolean {
+        return localStorage.getItem('isAdmin') ? Boolean(localStorage.getItem('isAdmin')) : false
+    }
+
 
     isAuthenticated(): boolean {
         return this.hasToken();
