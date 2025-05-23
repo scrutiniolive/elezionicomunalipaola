@@ -147,7 +147,7 @@ export class BarChartComponent implements OnInit, OnDestroy, OnChanges {
         maintainAspectRatio: false,
         plugins: {
             legend: {
-                position: 'right',
+                position: 'bottom',
                 labels: {
                     boxWidth: 12,
                     padding: 10,
@@ -246,7 +246,7 @@ export class BarChartComponent implements OnInit, OnDestroy, OnChanges {
                 maintainAspectRatio: false,
                 plugins: {
                     legend: {
-                        position: 'right',
+                        position: 'bottom',
                         labels: {
                             boxWidth: 12,
                             padding: 10,
