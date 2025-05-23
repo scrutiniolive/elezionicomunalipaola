@@ -18,12 +18,12 @@
             <h3 class="last-name">{{ candidateCardModel.lastName }}</h3>
             <p class="first-name">{{ candidateCardModel.firstName }}</p>
             <div *ngIf="showCounter && isEditable" class="actions">
-                <button class="btn-counter increment"
-                    (click)="isCandidate ? incrementVotes() : incrementeEitherNullOrBlank()"
-                    [disabled]="!ballotOpen">+</button>
                 <button class="btn-counter decrement"
                     (click)="isCandidate ? decrementVotes() : decrementEitherNullOrBlank()"
                     [disabled]="!ballotOpen">-</button>
+                <button class="btn-counter increment"
+                    (click)="isCandidate ? incrementVotes() : incrementeEitherNullOrBlank()"
+                    [disabled]="!ballotOpen">+</button>
             </div>
         </div>
     </div>
