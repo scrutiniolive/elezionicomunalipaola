@@ -14,22 +14,22 @@ Chart.register(...registerables);
     imports: [CommonModule, BaseChartDirective],
     template: `
       <div class="chart-container">
-            <h3>{{ title }}</h3>
-            <div class="chart-wrapper">
-                <ng-container *ngIf="hasData; else noData">
-                    <canvas baseChart
-                        [data]="pieChartData"
-                        [options]="pieChartOptions"
-                        [type]="'pie'">
-                    </canvas>
-                </ng-container>
-                <ng-template #noData>
-                    <div class="no-data-message">
-                        <p>Nessun dato disponibile</p>
-                    </div>
-                </ng-template>
+    <h3>{{ title }}</h3>
+    <div class="chart-wrapper" [ngStyle]="{'height': getChartHeight()}">
+        <ng-container *ngIf="hasData; else noData">
+            <canvas baseChart
+                [data]="pieChartData"
+                [options]="pieChartOptions"
+                [type]="'pie'">
+            </canvas>
+        </ng-container>
+        <ng-template #noData>
+            <div class="no-data-message">
+                <p>Nessun dato disponibile</p>
             </div>
-        </div>
+        </ng-template>
+    </div>
+</div>
     `,
     styles: [`
         .chart-container {
@@ -92,6 +92,79 @@ Chart.register(...registerables);
                 }
             }
         }
+
+        /* Modifica questo nel tuo CSS */
+::ng-deep .chart-col {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    min-height: 300px;
+    max-height: none;
+}
+
+::ng-deep .chart-wrapper {
+    flex: 1;
+    position: relative;
+    width: 100%;
+    overflow: visible;
+}
+
+::ng-deep .chart-container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Questo è cruciale per dispositivi mobili */
+@media (max-width: 768px) {
+    ::ng-deep .chart-col {
+        min-height: 280px;
+        padding: 12px !important;
+    }
+
+    ::ng-deep canvas {
+        height: 100% !important;
+        width: 100% !important;
+        margin: 0 auto !important;
+    }
+    
+    ::ng-deep .chart-wrapper {
+        height: 250px;
+    }
+}
+
+@media (max-width: 480px) {
+    ::ng-deep .chart-col {
+        min-height: 250px;
+        padding: 10px !important;
+    }
+    
+    ::ng-deep .chart-wrapper {
+        height: 220px;
+    }
+}
+/* Aggiungi queste regole CSS per ottimizzare le legende sui dispositivi mobili */
+@media (max-width: 768px) {
+    ::ng-deep .chart-col canvas {
+        max-height: calc(100% - 60px) !important; /* Spazio per la legenda */
+    }
+    
+    ::ng-deep .chart-col .chartjs-legend ul {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    ::ng-deep .chart-col .chartjs-legend li {
+        margin: 0 5px 5px 0;
+        font-size: 10px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100px;
+    }
+}
   `]
 })
 export class BarChartComponent implements OnInit, OnDestroy, OnChanges {
@@ -104,6 +177,28 @@ export class BarChartComponent implements OnInit, OnDestroy, OnChanges {
 
     public hasData: boolean = false;
     private updateSubscription: Subscription | undefined;
+
+    // Aggiungi/modifica nel tuo BarChartComponent
+    @HostListener('window:resize')
+    onResize() {
+        this.setupChartOptions();
+        // Aggiungi una pausa e poi forza un ridisegno del grafico
+        setTimeout(() => {
+            const charts = Chart.instances;
+            for (const id in charts) {
+                charts[id].resize();
+            }
+        }, 100);
+    }
+
+    // Aggiungi al tuo componente
+    getChartHeight(): string {
+        // Regola l'altezza in base alla dimensione dello schermo
+        const width = window.innerWidth;
+        if (width <= 400) return '200px';
+        if (width <= 768) return '240px';
+        return '280px'; // Desktop
+    }
 
     ngOnInit(): void {
         // Inizializza le opzioni del grafico in base alla dimensione dello schermo
@@ -129,10 +224,7 @@ export class BarChartComponent implements OnInit, OnDestroy, OnChanges {
         }
     }
 
-    @HostListener('window:resize')
-    onResize() {
-        this.setupChartOptions();
-    }
+
 
     public pieChartData: ChartConfiguration<'pie'>['data'] = {
         labels: [],

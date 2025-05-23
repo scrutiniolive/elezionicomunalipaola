@@ -14,28 +14,22 @@ Chart.register(...registerables);
     imports: [CommonModule, BaseChartDirective],
     template: `
       <div class="chart-container">
-            <h3>{{ title }}</h3>
-            <div class="chart-wrapper">
-                <ng-container *ngIf="hasData; else noData">
-                    <canvas baseChart
-                        [data]="pieChartData"
-                        [options]="pieChartOptions"
-                        [type]="'pie'">
-                    </canvas>
-                </ng-container>
-                <ng-template #noData>
-                    <div class="no-data-message">
-                        <p>Nessun dato disponibile</p>
-                    </div>
-                </ng-template>
+    <h3>{{ title }}</h3>
+    <div class="chart-wrapper" [ngStyle]="{'height': getChartHeight()}">
+        <ng-container *ngIf="hasData; else noData">
+            <canvas baseChart
+                [data]="pieChartData"
+                [options]="pieChartOptions"
+                [type]="'pie'">
+            </canvas>
+        </ng-container>
+        <ng-template #noData>
+            <div class="no-data-message">
+                <p>Nessun dato disponibile</p>
             </div>
-            <div *ngIf="hasData && showLegendBelow" class="chart-legend-below">
-                <div *ngFor="let label of pieChartData.labels; let i = index" class="legend-item">
-                    <span class="color-box" [style.background-color]="getColorForIndex(i)"></span>
-                    <span class="label-text">{{label}}</span>
-                </div>
-            </div>
-        </div>
+        </ng-template>
+    </div>
+</div>
     `,
     styles: [`
         .chart-container {
@@ -49,10 +43,6 @@ Chart.register(...registerables);
                 margin-bottom: 15px;
                 color: #2c3e50;
                 font-size: 16px;
-                text-align: left; /* Centra il titolo */
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
             }
         }
         
@@ -61,9 +51,6 @@ Chart.register(...registerables);
             position: relative;
             min-height: 0;
             max-height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
         
         .no-data-message {
@@ -80,36 +67,6 @@ Chart.register(...registerables);
             }
         }
         
-        /* Nuovi stili per la legenda sotto il grafico */
-        .chart-legend-below {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 8px;
-            padding: 8px 0;
-            margin-top: 10px;
-            
-            .legend-item {
-                display: flex;
-                align-items: center;
-                margin-right: 10px;
-                margin-bottom: 5px;
-                
-                .color-box {
-                    display: inline-block;
-                    width: 12px;
-                    height: 12px;
-                    border-radius: 2px;
-                    margin-right: 5px;
-                }
-                
-                .label-text {
-                    font-size: 12px;
-                    color: #2c3e50;
-                }
-            }
-        }
-        
         @media (max-width: 768px) {
             .chart-container h3 {
                 font-size: 15px;
@@ -118,12 +75,6 @@ Chart.register(...registerables);
             
             .no-data-message p {
                 font-size: 1em;
-            }
-            
-            .chart-legend-below {
-                .legend-item .label-text {
-                    font-size: 11px;
-                }
             }
         }
         
@@ -140,50 +91,80 @@ Chart.register(...registerables);
                     font-size: 0.9em;
                 }
             }
-            
-            .chart-legend-below {
-                gap: 4px;
-                
-                .legend-item {
-                    margin-right: 6px;
-                    
-                    .color-box {
-                        width: 10px;
-                        height: 10px;
-                        margin-right: 3px;
-                    }
-                    
-                    .label-text {
-                        font-size: 10px;
-                    }
-                }
-            }
         }
-        
-        @media (max-width: 360px) {
-            .chart-container h3 {
-                font-size: 13px;
-                margin-bottom: 6px;
-            }
-            
-            .chart-legend-below {
-                gap: 3px;
-                
-                .legend-item {
-                    margin-right: 4px;
-                    
-                    .color-box {
-                        width: 8px;
-                        height: 8px;
-                        margin-right: 2px;
-                    }
-                    
-                    .label-text {
-                        font-size: 9px;
-                    }
-                }
-            }
-        }
+
+        /* Modifica questo nel tuo CSS */
+::ng-deep .chart-col {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    min-height: 300px;
+    max-height: none;
+}
+
+::ng-deep .chart-wrapper {
+    flex: 1;
+    position: relative;
+    width: 100%;
+    overflow: visible;
+}
+
+::ng-deep .chart-container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Questo è cruciale per dispositivi mobili */
+@media (max-width: 768px) {
+    ::ng-deep .chart-col {
+        min-height: 280px;
+        padding: 12px !important;
+    }
+
+    ::ng-deep canvas {
+        height: 100% !important;
+        width: 100% !important;
+        margin: 0 auto !important;
+    }
+    
+    ::ng-deep .chart-wrapper {
+        height: 250px;
+    }
+}
+
+@media (max-width: 480px) {
+    ::ng-deep .chart-col {
+        min-height: 250px;
+        padding: 10px !important;
+    }
+    
+    ::ng-deep .chart-wrapper {
+        height: 220px;
+    }
+}
+/* Aggiungi queste regole CSS per ottimizzare le legende sui dispositivi mobili */
+@media (max-width: 768px) {
+    ::ng-deep .chart-col canvas {
+        max-height: calc(100% - 60px) !important; /* Spazio per la legenda */
+    }
+    
+    ::ng-deep .chart-col .chartjs-legend ul {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    ::ng-deep .chart-col .chartjs-legend li {
+        margin: 0 5px 5px 0;
+        font-size: 10px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100px;
+    }
+}
   `]
 })
 export class PieChartComponent implements OnInit, OnDestroy, OnChanges {
@@ -205,6 +186,29 @@ export class PieChartComponent implements OnInit, OnDestroy, OnChanges {
     ];
 
     constructor(private dataService: DataService, private dashboardControllerService: DashboardControllerService) { }
+
+
+    // Aggiungi/modifica nel tuo BarChartComponent
+    @HostListener('window:resize')
+    onResize() {
+        this.setupChartOptions();
+        // Aggiungi una pausa e poi forza un ridisegno del grafico
+        setTimeout(() => {
+            const charts = Chart.instances;
+            for (const id in charts) {
+                charts[id].resize();
+            }
+        }, 100);
+    }
+
+    // Aggiungi al tuo componente
+    getChartHeight(): string {
+        // Regola l'altezza in base alla dimensione dello schermo
+        const width = window.innerWidth;
+        if (width <= 400) return '200px';
+        if (width <= 768) return '240px';
+        return '280px'; // Desktop
+    }
 
     ngOnInit(): void {
         // Inizializza le opzioni del grafico in base alla dimensione dello schermo
@@ -230,10 +234,7 @@ export class PieChartComponent implements OnInit, OnDestroy, OnChanges {
         }
     }
 
-    @HostListener('window:resize')
-    onResize() {
-        this.setupChartOptions();
-    }
+
 
     // Nuovo metodo per recuperare il colore in base all'indice per la legenda personalizzata
     getColorForIndex(index: number): string {
