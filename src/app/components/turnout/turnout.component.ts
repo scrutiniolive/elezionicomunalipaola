@@ -1,15 +1,12 @@
 import { Component, HostListener, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
-import { Chart, ChartConfiguration } from 'chart.js';
+import { Chart, ChartConfiguration, registerables } from 'chart.js';
+
 import { Subscription, interval } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { BaseChartDirective } from 'ng2-charts';
 import { SectionsTurnoutDto, TurnoutControllerService } from '../../api';
 
-// Interfaccia per i dati di affluenza
-interface SectionVoteData {
-    SectionName: string;
-    Vote: number;
-}
+Chart.register(...registerables);
 
 @Component({
     selector: 'app-turnout',
@@ -259,12 +256,16 @@ export class TurnoutComponent implements OnInit, OnDestroy, OnChanges {
             case 'turnout':
                 this.turnoutControllerService.getTurnout().subscribe(data => {
                     this.processTurnoutData(data);
+                    this.hasData = this.barChartData.datasets.length > 0 &&
+                        this.barChartData.datasets[0].data.some(value => value ?? 0 > 0);
                 });
                 break;
 
             case 'turnout-votes':
                 this.turnoutControllerService.getTurnout().subscribe(data => {
                     this.processTurnoutVotesData(data);
+                    this.hasData = this.barChartData.datasets.length > 0 &&
+                        this.barChartData.datasets[0].data.some(value => value ?? 0 > 0);
                 });
                 break;
 
