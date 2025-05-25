@@ -1,0 +1,133 @@
+ .chart-container {
+     display: flex;
+     flex-direction: column;
+     height: 100%;
+     width: 100%;
+
+     h3 {
+         margin-top: 0;
+         margin-bottom: 15px;
+         color: #2c3e50;
+         font-size: 16px;
+         text-align: center;
+     }
+ }
+
+ .chart-wrapper {
+     flex: 1;
+     position: relative;
+     min-height: 0;
+     max-height: 100%;
+ }
+
+ .no-data-message {
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     height: 100%;
+     min-height: 200px;
+     background-color: #f8f9fa;
+     border-radius: 8px;
+
+     p {
+         color: #6c757d;
+         font-size: 1.1em;
+     }
+ }
+
+ @media (max-width: 768px) {
+     .chart-container h3 {
+         font-size: 15px;
+         margin-bottom: 10px;
+     }
+
+     .no-data-message p {
+         font-size: 1em;
+     }
+ }
+
+ @media (max-width: 480px) {
+     .chart-container h3 {
+         font-size: 14px;
+         margin-bottom: 8px;
+     }
+
+     .no-data-message {
+         min-height: 150px;
+
+         p {
+             font-size: 0.9em;
+         }
+     }
+ }
+
+ ::ng-deep .chart-col {
+     display: flex;
+     flex-direction: column;
+     height: auto;
+     min-height: 300px;
+     max-height: none;
+ }
+
+ ::ng-deep .chart-wrapper {
+     flex: 1;
+     position: relative;
+     width: 100%;
+     overflow: visible;
+ }
+
+ ::ng-deep .chart-container {
+     height: 100%;
+     width: 100%;
+     display: flex;
+     flex-direction: column;
+ }
+
+ @media (max-width: 768px) {
+     ::ng-deep .chart-col {
+         min-height: 280px;
+         padding: 12px !important;
+     }
+
+     ::ng-deep canvas {
+         height: 100% !important;
+         width: 100% !important;
+         margin: 0 auto !important;
+     }
+
+     ::ng-deep .chart-wrapper {
+         height: 250px;
+     }
+ }
+
+ @media (max-width: 480px) {
+     ::ng-deep .chart-col {
+         min-height: 250px;
+         padding: 10px !important;
+     }
+
+     ::ng-deep .chart-wrapper {
+         height: 220px;
+     }
+ }
+
+ @media (max-width: 768px) {
+     ::ng-deep .chart-col canvas {
+         max-height: calc(100% - 60px) !important;
+     }
+
+     ::ng-deep .chart-col .chartjs-legend ul {
+         display: flex;
+         flex-wrap: wrap;
+         justify-content: center;
+     }
+
+     ::ng-deep .chart-col .chartjs-legend li {
+         margin: 0 5px 5px 0;
+         font-size: 10px;
+         white-space: nowrap;
+         overflow: hidden;
+         text-overflow: ellipsis;
+         max-width: 100px;
+     }
+ }

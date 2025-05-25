@@ -1,0 +1,14 @@
+<div class="chart-container">
+    <h3>{{ title }}</h3>
+    <div class="chart-wrapper" [ngStyle]="{'height': getChartHeight()}">
+        <ng-container *ngIf="hasData; else noData">
+            <canvas baseChart [data]="barChartData" [options]="barChartOptions" [type]="'bar'">
+            </canvas>
+        </ng-container>
+        <ng-template #noData>
+            <div class="no-data-message">
+                <p>Nessun dato disponibile</p>
+            </div>
+        </ng-template>
+    </div>
+</div>

@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 README.md
 api.base.service.ts
 api.module.ts
@@ -9,6 +8,7 @@ api/cardController.service.ts
 api/dashboardController.service.ts
 api/electionDisplayController.service.ts
 api/sectionController.service.ts
+api/turnoutController.service.ts
 api/voteController.service.ts
 configuration.ts
 encoder.ts
@@ -20,6 +20,8 @@ model/credentialsDto.ts
 model/models.ts
 model/partyListCardModel.ts
 model/sectionDto.ts
+model/sectionTurnoutDto.ts
+model/sectionsTurnoutDto.ts
 model/signUpDto.ts
 model/userDto.ts
 model/voteRequest.ts

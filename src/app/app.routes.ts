@@ -22,6 +22,7 @@ export const routes: Routes = [
         ]
     },
     { path: 'candidates', loadComponent: () => import('./components/candidate/candidate.component').then(m => m.CandidateComponent) },
+    { path: 'turnout-dash', loadComponent: () => import('./components/turnout-dash/turnout-dash.component').then(m => m.TurnoutDashbComponent) },
     { path: 'seat-results', loadComponent: () => import('./components/seat-results/seat-results.component').then(m => m.SeatResultsComponent) },
     { path: 'candidate-results', loadComponent: () => import('./components/candidate-results/candidate-results.component').then(m => m.CandidateResultsComponent) },
     { path: 'download', loadComponent: () => import('./components/download/download.component').then(m => m.DownloadComponent) },

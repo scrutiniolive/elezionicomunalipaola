@@ -3,6 +3,8 @@ export * from './candidateDto';
 export * from './credentialsDto';
 export * from './partyListCardModel';
 export * from './sectionDto';
+export * from './sectionTurnoutDto';
+export * from './sectionsTurnoutDto';
 export * from './signUpDto';
 export * from './userDto';
 export * from './voteRequest';
