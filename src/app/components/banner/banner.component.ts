@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
     template: `
     <div class="maintenance-banner" *ngIf="isVisible">
       <span>
-        ⚠️ Sito in allestimento. I dati visualizzati sono di prova. Lancio ufficiale tra: {{daysLeft}}g {{hoursLeft}}h {{minutesLeft}}m {{secondsLeft}}s ⚠️
+              ✨ Il servizio è operativo! L'aggiornamento live partirà Lunedì 26 Maggio alla chiusura delle votazioni. Countdown: {{daysLeft}}g {{hoursLeft}}h {{minutesLeft}}m {{secondsLeft}}s ✨
       </span>
       <button (click)="closeBanner()" class="close-button">×</button>
     </div>
@@ -25,7 +25,7 @@ export class MaintenanceBannerComponent implements OnInit, OnDestroy {
     secondsLeft = 0;
 
     ngOnInit() {
-        const endDate = new Date('2025-05-26T23:59:59');
+        const endDate = new Date('2025-05-26T15:00:00');
 
         this.timer = setInterval(() => {
             const now = new Date();

@@ -1,4 +1,4 @@
 export const environment = {
     production: false,
-    apiBasePath: 'https://elezionipaola.ddns.net:8090'
+    apiBasePath: 'https://xik9naqbvp.eu-west-1.awsapprunner.com'
 };
