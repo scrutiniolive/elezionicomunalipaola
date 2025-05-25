@@ -18,12 +18,7 @@ import { TurnoutComponent } from '../turnout/turnout.component';
 
 
    <div class="card-container">
-    <app-counter-card
-      [title]="'Votanti'"
-      [value]="totalElectors"
-      [icon]="'user'"
-      [prefix]="''"
-    ></app-counter-card>
+  
 
     <app-counter-card
       [title]="'Voti'"
