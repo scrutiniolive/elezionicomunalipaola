@@ -18,7 +18,12 @@ import { TurnoutComponent } from '../turnout/turnout.component';
 
 
    <div class="card-container">
-  
+    <app-counter-card
+      [title]="'Aventi diritto al voto'"
+      [value]="'14957'"
+      [icon]="'user'"
+      [prefix]="''"
+    ></app-counter-card>
 
     <app-counter-card
       [title]="'Voti'"
