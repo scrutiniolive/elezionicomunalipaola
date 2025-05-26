@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { VoteControllerService } from "../../api";
+import { DashboardControllerService, VoteControllerService } from "../../api";
 import { AuthService } from "../../services/auth.service";
 import { Subscription, interval } from "rxjs";
 import { CommonModule } from "@angular/common";
@@ -20,6 +20,7 @@ export class DownloadComponent implements OnInit, OnDestroy {
 
     constructor(
         private voteControllerService: VoteControllerService,
+        private dashboardControllerService: DashboardControllerService,
         private authService: AuthService
     ) { }
 
@@ -47,7 +48,7 @@ export class DownloadComponent implements OnInit, OnDestroy {
     downloadExcel() {
 
 
-        this.voteControllerService.exportToExcel()
+        this.dashboardControllerService.exportToExcel()
             .subscribe({
                 next: (response) => {
                     // Crea un blob dall'array buffer
