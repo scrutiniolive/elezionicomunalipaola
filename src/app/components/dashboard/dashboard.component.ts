@@ -103,7 +103,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
             .subscribe({
                 next: (data) => {
                     this.liveState = data.countingInProgress ? 'In Diretta' : "Terminato",
-                        this.numSection = data.sectionClosed ? (17 - data.sectionClosed).toString() + ' di 17' : '-',
+                        this.numSection = data.sectionClosed ? (17 - data.sectionClosed).toString() + ' di 17' : '17 di 17',
                         this.party = data.leadPartyList ? data.leadPartyList : '-',
                         this.votes = data.totalVotes ? data.totalVotes.toString() : '-'
                 },
