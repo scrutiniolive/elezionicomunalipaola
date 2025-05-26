@@ -1,17 +1,9 @@
 <div class="download-container">
-    <ng-container *ngIf="isAuthenticated; else notAuthenticatedTemplate">
-        <button (click)="downloadExcel()" class="download-button" [disabled]="!isAuthenticated">
+    <ng-container>
+        <button (click)="downloadExcel()" class="download-button">
             Scarica Report Excel
         </button>
     </ng-container>
 
-    <ng-template #notAuthenticatedTemplate>
-        <div class="disclaimer">
-            <p>I risulati dei seggi potranno essere scaricati solo al termine degli scrutini.</p>
-            <p>Tempo rimanente:</p>
-            <div class="countdown">
-                {{ countdownDisplay }}
-            </div>
-        </div>
-    </ng-template>
+
 </div>

@@ -12,7 +12,7 @@ import { CommonModule } from "@angular/common";
     imports: [CommonModule]
 })
 export class DownloadComponent implements OnInit, OnDestroy {
-    isAuthenticated = false;
+    //isAuthenticated = false;
     countdownDisplay = '';
     private endDate = new Date('May 28, 2025 00:00:00').getTime();
     private countdownSubscription!: Subscription;
@@ -24,12 +24,6 @@ export class DownloadComponent implements OnInit, OnDestroy {
     ) { }
 
     ngOnInit() {
-        // Sottoscrizione allo stato di autenticazione
-        this.authSubscription = this.authService.isAuthenticated$.subscribe(
-            isAuth => {
-                this.isAuthenticated = isAuth;
-            }
-        );
 
         // Avvio del countdown
         this.countdownSubscription = interval(121 * 1000).subscribe(() => {
@@ -51,9 +45,7 @@ export class DownloadComponent implements OnInit, OnDestroy {
     }
 
     downloadExcel() {
-        if (!this.isAuthenticated) {
-            return;
-        }
+
 
         this.voteControllerService.exportToExcel()
             .subscribe({

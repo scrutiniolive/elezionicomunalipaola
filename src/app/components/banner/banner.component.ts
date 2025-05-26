@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
     template: `
     <div class="maintenance-banner" *ngIf="isVisible">
       <span>
-              ✨ Il servizio è operativo! L'aggiornamento live partirà Lunedì 26 Maggio alla chiusura delle votazioni. Countdown: {{daysLeft}}g {{hoursLeft}}h {{minutesLeft}}m {{secondsLeft}}s ✨
+              ⚠️ I dati sono ancora in corso di validazione ⚠️
       </span>
       <button (click)="closeBanner()" class="close-button">×</button>
     </div>
@@ -37,7 +37,7 @@ export class MaintenanceBannerComponent implements OnInit, OnDestroy {
             this.secondsLeft = Math.floor((diff % (1000 * 60)) / 1000);
 
             if (diff <= 0) {
-                this.isVisible = false;
+                //this.isVisible = false;
                 clearInterval(this.timer);
             }
         }, 1000);
