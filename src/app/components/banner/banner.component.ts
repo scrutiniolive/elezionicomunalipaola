@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
     template: `
     <div class="maintenance-banner" *ngIf="isVisible">
       <span>
-        ⚠️I dati sono ancora in corso di validazione. Dalla sezione "Scarica Risultati" è possibile scaricare un Excel con i risultati dettagliati per seggio. 📊
+        🚨 🆕 Dalla sezione "Scarica Risultati" è possibile scaricare un Excel con i risultati dettagliati per seggio. 🆕 🚨
       </span>
       <button (click)="closeBanner()" class="close-button">×</button>
     </div>
